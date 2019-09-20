@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>wenbing-blog</title>
   
-  
+  <subtitle>��������</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-09-20T02:54:20.965Z</updated>
+  <updated>2019-09-20T03:11:52.920Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>java反射详细解析（附demo）</title>
+    <link href="http://yoursite.com/my/%E5%8F%8D%E5%B0%84/"/>
+    <id>http://yoursite.com/my/反射/</id>
+    <published>2019-09-20T01:21:27.000Z</published>
+    <updated>2019-09-20T03:11:52.920Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="什么是反射（Reflection）"><a href="#什么是反射（Reflection）" class="headerlink" title="什么是反射（Reflection）"></a>什么是反射（Reflection）</h4><p>Java 反射机制是在<strong>运行状态</strong>中，对于任意一个类，都能够知道这个类的所有的属性和方法；对于任意一个对象，都能够调用它的任何方法和属性；也就是说反射机制在程序运行的过程中，能够获取任何已知名称的类的内部信息，并在执行过程中，动态生成对象实体、对fields设值、或者调用methods。</p><p>这种在程序运行过程中，动态获取类的信息以及动态调用方法的功能称为Java的反射机制。</p><h4 id="Reflection-API-简介"><a href="#Reflection-API-简介" class="headerlink" title="Reflection API 简介"></a>Reflection API 简介</h4><p>在JDK中，主要由一下类来实现Java反射机制，这些类（出来Class）都位于java.lang.reflect包中。</p><table><thead><tr><th>类名</th><th>含义</th></tr></thead><tbody><tr><td>Class 类</td><td>代表某个具体的类和接口，位于java.lang包下</td></tr><tr><td>Field类</td><td>代表类的成员变量（成员变量也称为类的属性）</td></tr><tr><td>Method类</td><td>代表类或者接口上的方法</td></tr><tr><td>Constructor类</td><td>代表类的构造方法</td></tr><tr><td>Array类</td><td>提供了动态创建数组，以及访问数组的元素的静态方法</td></tr></tbody></table><h5 id="Class类"><a href="#Class类" class="headerlink" title="Class类"></a>Class类</h5><p>Class本身就是一个类，Class是该类的名称，注意不要理解成类类型。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest&#123;&#125;</span><br></pre></td></tr></table></figure><p>注意上面的class的首字母是小写的，他表示一中类类型，但是Class是一个类，相当于上面定义的MyTest类。</p><p>在Java中，每个class都有一个相应的Class对象，也就是说，当我们编写一个类，编译成.class文件后，就会产生一个Class对象，用于表达这个类的类型信息。无论某个类有多少个对象，这些对象都会对应同一个Class对象。</p><p>Class的获取方式：</p><ul><li><p>使用Class类的静态方法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; testClazz01 = Class.forName(&quot;com.zwb.MyTest&quot;);</span><br></pre></td></tr></table></figure></li><li><p>使用类的.class</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;? extends MyTest&gt; testClazz02 = MyTest.class;</span><br></pre></td></tr></table></figure></li><li><p>使用对象的getClass()方法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyTest myTest = new MyTest();</span><br><span class="line">Class&lt;? extends MyTest&gt; testClazz03 = myTest.getClass();</span><br></pre></td></tr></table></figure></li></ul><h5 id="Class相关的方法"><a href="#Class相关的方法" class="headerlink" title="Class相关的方法"></a>Class相关的方法</h5><ul><li>获得类相关的方法</li></ul><table><thead><tr><th>方法名</th><th>含义</th></tr></thead><tbody><tr><td>asSubClass(Class<u> clazz)</u></td><td>把传递的类的对象转换成代表其子类的对象</td></tr><tr><td>Cast</td><td>把对象转换成代表类或者接口的对象</td></tr><tr><td>getClassLoader()</td><td>获得类的加载器</td></tr><tr><td>getClasses()</td><td>返回一个数组，数组中包含该类中所有具有public属性的类和接口类的对象</td></tr><tr><td>getDeclaredClasses()</td><td>返回一个数组，数组中包含该类中所有类和接口类的对象</td></tr><tr><td>forName(String className)</td><td>根据类名返回类的对象</td></tr><tr><td>getName()</td><td>获得类的完整路径名字</td></tr><tr><td>newInstance()</td><td>创建类的实例</td></tr><tr><td>getPackage</td><td>获取类的包</td></tr><tr><td>getSimpleName</td><td>获取类的名字</td></tr><tr><td>getSuperclass</td><td>获取父类的名字</td></tr><tr><td>getInterfaces</td><td>获取当前类实现的接口</td></tr><tr><td><a href>示例</a></td><td></td></tr></tbody></table><ul><li>获得类中构造器相关的方法</li></ul><table><thead><tr><th>方法</th><th>用途</th></tr></thead><tbody><tr><td>getConstructor(Class…&lt;?&gt; parameterTypes)</td><td>获得该类中与参数类型匹配的公有构造方法</td></tr><tr><td>getConstructors()</td><td>获得该类的所有公有构造方法</td></tr><tr><td>getDeclaredConstructors(Class…&lt;?&gt; parameterTypes)</td><td>获得该类中与参数类型匹配的构造方法</td></tr><tr><td>getDeclaredConstructors()</td><td>获得该类所有构造方法</td></tr><tr><td><a href>示例</a></td><td></td></tr></tbody></table><ul><li>获得类中方法相关的方法</li></ul><table><thead><tr><th>方法</th><th>用途</th></tr></thead><tbody><tr><td>getMethod(String name, Class…&lt;?&gt; parameterTypes)</td><td>根据方法名和参数，返回一个具体的具有public属性的方法</td></tr><tr><td>getMethods()</td><td>返回所有具有public属性的方法数组（包括从父类继承的public方法和实现接口的public方法）</td></tr><tr><td>getDeclaredMethod(String name, Class…&lt;?&gt; parameterTypes)</td><td>根据方法名和参数，返回一个具体的方法（不分public和非public属性）</td></tr><tr><td>getDeclaredMethods()</td><td>返回该类中的所有的方法数组（不分public和非public属性）</td></tr><tr><td><a href>示例</a></td><td></td></tr></tbody></table><ul><li>获得类中属性相关的方法</li></ul><table><thead><tr><th>方法</th><th>用途</th></tr></thead><tbody><tr><td>getField(String name)</td><td>根据变量名，返回一个具体的具有public属性的成员变量</td></tr><tr><td>getFields()</td><td>返回具有public属性的成员变量的数组</td></tr><tr><td>getDeclaredField(String name)</td><td>根据变量名，返回一个成员变量（不分public和非public属性）</td></tr><tr><td>getDeclaredFields()</td><td>返回所有成员变量组成的数组（不分public和非public属性）</td></tr><tr><td><a href>示例</a></td><td></td></tr></tbody></table><ul><li>获得类中注解相关的方法</li></ul><table><thead><tr><th>方法</th><th>用途</th></tr></thead><tbody><tr><td>getAnnotation(Class<t>  annotationClass)</t></td><td>返回该类中与参数类型匹配的公有注解对象</td></tr><tr><td>getAnnotations()</td><td>返回该类所有的公有注解对象</td></tr><tr><td>getDeclaredAnnotation(Class<t>  annotationClass)</t></td><td>返回该类中与参数类型匹配的<strong>直接修饰的</strong>所有注解对象</td></tr><tr><td>getDeclaredAnnotations()</td><td>返回该类所有的<strong>直接修饰的</strong>注解对象</td></tr><tr><td><a href>示例</a></td><td></td></tr></tbody></table><p>参考：<br><a href="https://www.jianshu.com/p/9be58ee20dee" target="_blank" rel="noopener">https://www.jianshu.com/p/9be58ee20dee</a><br><a href="https://www.cnblogs.com/crazypebble/archive/2011/04/13/2014582.html" target="_blank" rel="noopener">https://www.cnblogs.com/crazypebble/archive/2011/04/13/2014582.html</a></p><p>待续…</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;什么是反射（Reflection）&quot;&gt;&lt;a href=&quot;#什么是反射（Reflection）&quot; class=&quot;headerlink&quot; title=&quot;什么是反射（Reflection）&quot;&gt;&lt;/a&gt;什么是反射（Reflection）&lt;/h4&gt;&lt;p&gt;Java 反射机制是
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>Java注解详细解析</title>
