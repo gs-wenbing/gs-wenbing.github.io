@@ -14,7 +14,7 @@
     
     
     
-    <title>java反射详细解析（附demo） | wenbing-blog | 明天会更好</title>
+    <title>【转】java反射基础学习（附demo） | wenbing-blog | 明天会更好</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -24,14 +24,14 @@
     <meta name="description" content="什么是反射（Reflection）Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有的属性和方法；对于任意一个对象，都能够调用它的任何方法和属性；也就是说反射机制在程序运行的过程中，能够获取任何已知名称的类的内部信息，并在执行过程中，动态生成对象实体、对fields设值、或者调用methods。 这种在程序运行过程中，动态获取类的信息以及动态调用方法的功能称为Java的反射机">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java反射详细解析（附demo）">
+<meta property="og:title" content="【转】java反射基础学习（附demo）">
 <meta property="og:url" content="http://wblog.work/反射/index.html">
 <meta property="og:site_name" content="wenbing-blog">
 <meta property="og:description" content="什么是反射（Reflection）Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有的属性和方法；对于任意一个对象，都能够调用它的任何方法和属性；也就是说反射机制在程序运行的过程中，能够获取任何已知名称的类的内部信息，并在执行过程中，动态生成对象实体、对fields设值、或者调用methods。 这种在程序运行过程中，动态获取类的信息以及动态调用方法的功能称为Java的反射机">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-23T03:32:38.106Z">
+<meta property="og:updated_time" content="2019-09-23T09:36:17.440Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java反射详细解析（附demo）">
+<meta name="twitter:title" content="【转】java反射基础学习（附demo）">
 <meta name="twitter:description" content="什么是反射（Reflection）Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有的属性和方法；对于任意一个对象，都能够调用它的任何方法和属性；也就是说反射机制在程序运行的过程中，能够获取任何已知名称的类的内部信息，并在执行过程中，动态生成对象实体、对fields设值、或者调用methods。 这种在程序运行过程中，动态获取类的信息以及动态调用方法的功能称为Java的反射机">
     
         <link rel="alternate" type="application/atom+xml" title="wenbing-blog" href="/atom.xml">
@@ -113,7 +113,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">java反射详细解析（附demo）</div>
+        <div class="flex-col header-title ellipsis">【转】java反射基础学习（附demo）</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -131,7 +131,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">java反射详细解析（附demo）</h1>
+        <h1 class="title">【转】java反射基础学习（附demo）</h1>
         <h5 class="subtitle">
             
                 <time datetime="2019-09-20T01:21:27.000Z" itemprop="datePublished" class="page-time">
@@ -154,7 +154,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#什么是反射（Reflection）"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是反射（Reflection）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Reflection-API-简介"><span class="post-toc-number">2.</span> <span class="post-toc-text">Reflection API 简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Class类"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Class类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Class相关的方法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Class相关的方法</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#什么是反射（Reflection）"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是反射（Reflection）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Reflection-API-简介"><span class="post-toc-number">2.</span> <span class="post-toc-text">Reflection API 简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Class类"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Class类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Class相关的方法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Class相关的方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Field类"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Field类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Method类"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Method类</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#说明"><span class="post-toc-number">3.</span> <span class="post-toc-text">说明</span></a></li></ol>
         </nav>
     </aside>
 
@@ -163,7 +163,7 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">java反射详细解析（附demo）</h1>
+        <h1 class="post-card-title">【转】java反射基础学习（附demo）</h1>
         <div class="post-meta">
             <time class="post-time" title="2019-09-20 09:21:27" datetime="2019-09-20T01:21:27.000Z"  itemprop="datePublished">2019-09-20</time>
 
@@ -228,7 +228,7 @@
 </li>
 </ul>
 <h5 id="Class相关的方法"><a href="#Class相关的方法" class="headerlink" title="Class相关的方法"></a>Class相关的方法</h5><ul>
-<li>获得类相关的方法</li>
+<li>获得<strong>类相关</strong>的方法</li>
 </ul>
 <table>
 <thead>
@@ -291,13 +291,13 @@
 </tr>
 </tbody></table>
 <ul>
-<li>获得类中构造器相关的方法</li>
+<li>获得类中<strong>构造器</strong>相关的方法</li>
 </ul>
 <table>
 <thead>
 <tr>
 <th>方法</th>
-<th>用途</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -322,13 +322,13 @@
 </tr>
 </tbody></table>
 <ul>
-<li>获得类中方法相关的方法</li>
+<li>获得类中<strong>方法</strong>相关的方法</li>
 </ul>
 <table>
 <thead>
 <tr>
 <th>方法</th>
-<th>用途</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -353,13 +353,13 @@
 </tr>
 </tbody></table>
 <ul>
-<li>获得类中属性相关的方法</li>
+<li>获得类中<strong>属性</strong>相关的方法</li>
 </ul>
 <table>
 <thead>
 <tr>
 <th>方法</th>
-<th>用途</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -384,13 +384,13 @@
 </tr>
 </tbody></table>
 <ul>
-<li>获得类中注解相关的方法</li>
+<li>获得类中<strong>注解</strong>相关的方法</li>
 </ul>
 <table>
 <thead>
 <tr>
 <th>方法</th>
-<th>用途</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -414,8 +414,86 @@
 <td></td>
 </tr>
 </tbody></table>
+<ul>
+<li><p>其他重要的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>isAnnotation()</td>
+<td>判断是否是注解</td>
+</tr>
+<tr>
+<td>isAnnotationPresent(Class&lt;? extends Annotation&gt; annotationClass)</td>
+<td>判断是否是指定类型的注解</td>
+</tr>
+<tr>
+<td>isAnonymousClass()</td>
+<td>判断是否是匿名类</td>
+</tr>
+<tr>
+<td>isArray()</td>
+<td>判断是否是数组类</td>
+</tr>
+<tr>
+<td>isEnum()</td>
+<td>判断是否是枚举类</td>
+</tr>
+<tr>
+<td>isInstance(Object obj)</td>
+<td>判断obj是否是该类的实例</td>
+</tr>
+<tr>
+<td>isInterface()</td>
+<td>判断是否是接口类</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="Field类"><a href="#Field类" class="headerlink" title="Field类"></a>Field类</h5><p>Field代表类的成员变量（属性）</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>get(Object obj)</td>
+<td>获取obj对应的属性值</td>
+</tr>
+<tr>
+<td>set(Object obj,Object value)</td>
+<td>设置obj对应的属性值</td>
+</tr>
+<tr>
+<td>equals(Object obj)</td>
+<td>判断与obj是否相等</td>
+</tr>
+</tbody></table>
+<h5 id="Method类"><a href="#Method类" class="headerlink" title="Method类"></a>Method类</h5><p>Method代表类的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>invoke(Object receiver,Object… args)</td>
+<td>传递object对象及参数调用该对象对应的方法</td>
+</tr>
+</tbody></table>
+<p>参数receiver指明了调用对象，参数args指明该方法所需要接收的参数。由于是运行时动态的调用类的方法，无法提前知道参数类型和返回值，所以传入和返回的都是Object<br>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class MyTest&#123;</span><br><span class="line"> 	private int testInvoke(int i)&#123;</span><br><span class="line">		return i*10;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Class&lt;?&gt; classTest = Class.forName(&quot;com.zwb.MyTest&quot;);</span><br><span class="line">Method methodTest = MyTest.getDeclaredMethod(&quot;testInvoke&quot;,int.class);</span><br><span class="line">methodTest.setAccessible(true);</span><br><span class="line">Object objectTest = classTest.newInstance();</span><br><span class="line">int result = (int) methodTest.invoke(objectTest,1);</span><br><span class="line">// result=10</span><br></pre></td></tr></table></figure>
+
+<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><p>这里主要是学习反射最基础的语法和相关的API，一些深层的知识点请自行查阅资料。<br>以上都是参考别人总结的（绝不是copy，都是在理解的基础上一字一句自己敲的），示例是我根据相关的API自己敲的，古人云：眼过千遍不如手过一遍。<br>如对原文作者又冒犯之处，请及时联系立删</p>
 <p>参考：<br><a href="https://www.jianshu.com/p/9be58ee20dee" target="_blank" rel="noopener">https://www.jianshu.com/p/9be58ee20dee</a><br><a href="https://www.cnblogs.com/crazypebble/archive/2011/04/13/2014582.html" target="_blank" rel="noopener">https://www.cnblogs.com/crazypebble/archive/2011/04/13/2014582.html</a></p>
-<p>待续…</p>
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
 
         </div>
 
@@ -424,7 +502,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-09-23T03:32:38.106Z" itemprop="dateUpdated">2019-09-23 11:32:38</time>
+    最后更新时间：<time datetime="2019-09-23T09:36:17.440Z" itemprop="dateUpdated">2019-09-23 17:36:17</time>
 </span><br>
 
 
@@ -467,7 +545,7 @@
     <div class="waves-block waves-effect next">
       <a href="/注解/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Java注解详细解析</h4>
+        <h4 class="title">【转】Java注解基础学习</h4>
       </a>
     </div>
   
