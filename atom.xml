@@ -45,8 +45,8 @@
   
   <entry>
     <title>【转】java反射基础学习（附demo）</title>
-    <link href="http://wblog.work/%E5%8F%8D%E5%B0%84/"/>
-    <id>http://wblog.work/反射/</id>
+    <link href="http://wblog.work/reflection/"/>
+    <id>http://wblog.work/reflection/</id>
     <published>2019-09-20T01:21:27.000Z</published>
     <updated>2019-09-23T09:47:36.236Z</updated>
     
@@ -71,8 +71,8 @@
   
   <entry>
     <title>【转】Java注解基础学习</title>
-    <link href="http://wblog.work/%E6%B3%A8%E8%A7%A3/"/>
-    <id>http://wblog.work/注解/</id>
+    <link href="http://wblog.work/annotation/"/>
+    <id>http://wblog.work/annotation/</id>
     <published>2019-09-20T01:21:27.000Z</published>
     <updated>2019-09-23T09:47:39.168Z</updated>
     
