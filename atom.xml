@@ -5,9 +5,9 @@
   <subtitle>明天会更好</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://wblog.work/"/>
+  <link href="http://www.wblog.work/"/>
   <updated>2019-09-25T03:07:19.129Z</updated>
-  <id>http://wblog.work/</id>
+  <id>http://www.wblog.work/</id>
   
   <author>
     <name>gs-wenbing</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Rxjava - RxScheduler示例和详细解析</title>
-    <link href="http://wblog.work/rxjava-schedul/"/>
-    <id>http://wblog.work/rxjava-schedul/</id>
+    <link href="http://www.wblog.work/rxjava-schedul/"/>
+    <id>http://www.wblog.work/rxjava-schedul/</id>
     <published>2019-09-25T03:21:27.000Z</published>
     <updated>2019-09-25T03:07:19.129Z</updated>
     
@@ -36,17 +36,17 @@
     </summary>
     
     
-      <category term="开发" scheme="http://wblog.work/categories/%E5%BC%80%E5%8F%91/"/>
+      <category term="开发" scheme="http://www.wblog.work/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="Rxjava" scheme="http://wblog.work/tags/Rxjava/"/>
+      <category term="Rxjava" scheme="http://www.wblog.work/tags/Rxjava/"/>
     
   </entry>
   
   <entry>
     <title>【转】java反射基础学习（附demo）</title>
-    <link href="http://wblog.work/reflection/"/>
-    <id>http://wblog.work/reflection/</id>
+    <link href="http://www.wblog.work/reflection/"/>
+    <id>http://www.wblog.work/reflection/</id>
     <published>2019-09-20T01:21:27.000Z</published>
     <updated>2019-09-23T09:47:36.236Z</updated>
     
@@ -62,17 +62,17 @@
     </summary>
     
     
-      <category term="开发" scheme="http://wblog.work/categories/%E5%BC%80%E5%8F%91/"/>
+      <category term="开发" scheme="http://www.wblog.work/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="Java" scheme="http://wblog.work/tags/Java/"/>
+      <category term="Java" scheme="http://www.wblog.work/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>【转】Java注解基础学习</title>
-    <link href="http://wblog.work/annotation/"/>
-    <id>http://wblog.work/annotation/</id>
+    <link href="http://www.wblog.work/annotation/"/>
+    <id>http://www.wblog.work/annotation/</id>
     <published>2019-09-20T01:21:27.000Z</published>
     <updated>2019-09-23T09:47:39.168Z</updated>
     
@@ -89,10 +89,10 @@
     </summary>
     
     
-      <category term="开发" scheme="http://wblog.work/categories/%E5%BC%80%E5%8F%91/"/>
+      <category term="开发" scheme="http://www.wblog.work/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="Java" scheme="http://wblog.work/tags/Java/"/>
+      <category term="Java" scheme="http://www.wblog.work/tags/Java/"/>
     
   </entry>
   
