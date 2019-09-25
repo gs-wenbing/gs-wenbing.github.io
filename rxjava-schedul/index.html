@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?df1a1825beb5b5937d930b5837b9d5b3"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Rxjava - RxScheduler示例和详细解析 | wenbing-blog | 明天会更好</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Rxjava">
+    <meta name="description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
+<meta name="keywords" content="Rxjava">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava - RxScheduler示例和详细解析">
+<meta property="og:url" content="http://wblog.work/rxjava-schedul/index.html">
+<meta property="og:site_name" content="wenbing-blog">
+<meta property="og:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-25T03:04:58.275Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava - RxScheduler示例和详细解析">
+<meta name="twitter:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
+    
+        <link rel="alternate" type="application/atom+xml" title="wenbing-blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">gs-wenbing</h5>
+          <a href="mailto:742330561@qq.com" title="742330561@qq.com" class="mail">742330561@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                首页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-categories"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/gs-wenbing" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Rxjava - RxScheduler示例和详细解析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Rxjava - RxScheduler示例和详细解析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-09-25T03:21:27.000Z" itemprop="datePublished" class="page-time">
+  2019-09-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/开发/">开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#subscribeOn-和-observeOn"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">subscribeOn() 和 observeOn()</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RxJava-提供了以下这些调度器："><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">RxJava 提供了以下这些调度器：</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#示例"><span class="post-toc-number">2.</span> <span class="post-toc-text">示例</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-rxjava-schedul"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Rxjava - RxScheduler示例和详细解析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-09-25 11:21:27" datetime="2019-09-25T03:21:27.000Z"  itemprop="datePublished">2019-09-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/开发/">开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先了解 Schedulers 和 Scheduler 的概念<br></p>
+<p><strong>Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程<br><br>而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler<br><br>我们可以使用使用 subscribeOn() 和 observeOn() 两个方法来对线程进行控制。</strong></p>
+<p>比如常用的 Observable 生成发射数据流，以及 Operators 加工数据流都是在后台线程中进行，而 Observer 在前台线程中接受并相应数据。</p>
+<h5 id="subscribeOn-和-observeOn"><a href="#subscribeOn-和-observeOn" class="headerlink" title="subscribeOn() 和 observeOn()"></a>subscribeOn() 和 observeOn()</h5><ul>
+<li><p>subscribeOn(): 指定 ObservableOnSubscribe#subscribe() 所发生的线程，即 Observable.OnSubscribe 被激活时所处的线程。或者叫做事件产生的线程，我把他叫做上游。<br><br>当调用多次 subscribeOn() 时，事件产生会运行在最早的一次调用声明的线程中。当然也不是说多次的调用是完全没效果的，后面会提到。</p>
+</li>
+<li><p>observeOn(): 指定 Observer 所运行在的线程。或者叫做事件消费的线程，我把他叫做下游。每次调用 observeOn() 都会发生线程切换，此次调用直到下次切换线程中间的过程中的操作运行在此次调用指定的线程中。</p>
+</li>
+</ul>
+<h5 id="RxJava-提供了以下这些调度器："><a href="#RxJava-提供了以下这些调度器：" class="headerlink" title="RxJava 提供了以下这些调度器："></a>RxJava 提供了以下这些调度器：</h5><ul>
+<li><p>Schedulers.single();<br><br>运行在一个单独的线程，顺序执行，先进先出</p>
+</li>
+<li><p>Schedulers.computation();<br><br>计算所使用的 Scheduler。这个计算指的是 CPU 密集型计算，即不会被 I/O 等操作限制性能的操作，例如图形的计算；<br>默认线程数等于处理器的数量。 不要执行阻塞、IO操作(IO操作请使用Schedulers.io())</p>
+</li>
+<li><p>Schedulers.io();<br><br>I/O 操作（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io() 比 newThread() 更有效率。不要把计算工作放在 io() 中，可以避免创建不必要的线程</p>
+</li>
+<li><p>Schedulers.trampoline();<br><br>在当前线程立即执行任务，如果当前线程有任务在执行，则会将其暂停，等插入进来的任务执行完之后，再将未完成的任务接着执行</p>
+</li>
+<li><p>Schedulers.newThread();<br><br>总是启用新线程，并在新线程执行操作</p>
+</li>
+<li><p>Schedulers.from(@NonNull Executor executor);<br><br>使用指定的 Executor 作为调度器</p>
+</li>
+<li><p>AndroidSchedulers.mainThread();<br><br>它指定的操作将在 Android 主线程运行</p>
+</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>以下示例部分参考：<a href="https://www.jianshu.com/p/12638513424f" target="_blank" rel="noopener">https://www.jianshu.com/p/12638513424f</a>   <br><br>自己再敲一遍，有助于更深层的理解</p>
+<p><strong>示例1 使用一次subscribeOn和一次observeOn：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">    .create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</span><br><span class="line">        for (int i =1;i&lt;3;i++)&#123;</span><br><span class="line">            System.out.println(&quot;发射线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;发射：&quot;+i);</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">            emitter.onNext(i);</span><br><span class="line">        &#125;</span><br><span class="line">        emitter.onComplete();</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribe(integer -&gt; System.out.println(&quot;接收线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;接收：&quot;+integer)));</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：1</span><br><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：2</span><br><span class="line">接收线程：main----&gt;接收：1</span><br><span class="line">接收线程：main----&gt;接收：2</span><br></pre></td></tr></table></figure>
+
+<p>可以看出 上游数据发射在 RxCachedThreadScheduler-1 中执行，也就是IO线程中执行，下游接收是在主线程main中</p>
+<p><strong>示例2 使用两次 subscribeOn 和一次 observeOn：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">    .create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</span><br><span class="line">        for (int i =1;i&lt;3;i++)&#123;</span><br><span class="line">            System.out.println(&quot;发射线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;发射：&quot;+i);</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">            emitter.onNext(i);</span><br><span class="line">        &#125;</span><br><span class="line">        emitter.onComplete();</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .map(integer -&gt; &#123;</span><br><span class="line">        System.out.println(&quot;处理线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;处理：&quot;+integer);</span><br><span class="line">        return integer;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.newThread())//这次设置线程没起作用</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribe(integer -&gt;</span><br><span class="line">            System.out.println(&quot;接收线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;接收：&quot;+integer));</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：1</span><br><span class="line">处理线程：RxCachedThreadScheduler-1----&gt;处理：1</span><br><span class="line">接收线程：main----&gt;接收：1</span><br><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：2</span><br><span class="line">处理线程：RxCachedThreadScheduler-1----&gt;处理：2</span><br><span class="line">接收线程：main----&gt;接收：2</span><br></pre></td></tr></table></figure>
+
+<p>可以看出 数据的接收是在主线程（main）中，但是发射和处理都在 RxCachedThreadScheduler-1 中执行，也就是IO线程中执行，而我们设置的 subscribeOn(Schedulers.newThread() 没起作用</p>
+<p><strong>示例3使用一次 subscribeOn 和两次 observeOn：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">    .create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</span><br><span class="line">        for (int i =1;i&lt;3;i++)&#123;</span><br><span class="line">            System.out.println(&quot;发射线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;发射：&quot;+i);</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">            emitter.onNext(i);</span><br><span class="line">        &#125;</span><br><span class="line">        emitter.onComplete();</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .observeOn(Schedulers.newThread())</span><br><span class="line">    .map(integer -&gt; &#123;</span><br><span class="line">        System.out.println(&quot;处理线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;处理：&quot;+integer);</span><br><span class="line">        return integer;</span><br><span class="line">    &#125;)</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribe(integer -&gt; System.out.println(&quot;接收线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;接收：&quot;+integer)));</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：1</span><br><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：2</span><br><span class="line">处理线程：RxNewThreadScheduler-1----&gt;处理：1</span><br><span class="line">接收线程：main----&gt;接收：1</span><br><span class="line">处理线程：RxNewThreadScheduler-1----&gt;处理：2</span><br><span class="line">接收线程：main----&gt;接收：2</span><br></pre></td></tr></table></figure>
+
+<p>可以看出发射线程在 RxCachedThreadScheduler-1 (IO线程) 中，数据的处理在 RxNewThreadScheduler-1 (也就是Schedulers.newThread())中，数据的接收在 主线程main中。说明 Observeon 每次设置都会起作用</p>
+<p><strong>示例4：</strong><br><br>doOnSubscribe()/onSubscribe()，doOnNext()/onNext()，doOnComplete()/onComplete()，doOnError()/onError()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(&quot;当前线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">mDisposables.add(Observable</span><br><span class="line">        .create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void subscribe(@NonNull ObservableEmitter&lt;Integer&gt; e) throws Exception &#123;</span><br><span class="line">                System.out.println(&quot;Observable线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">                e.onNext(10);</span><br><span class="line">                e.onComplete();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">		// 从上面demo中可知 Observable 会在计算线程中执行</span><br><span class="line">        .subscribeOn(Schedulers.computation())</span><br><span class="line">		// 预测1：observeOn切换到线程，doOnSubscribe 在 NewThread-1 线程</span><br><span class="line">        .observeOn(Schedulers.newThread())</span><br><span class="line">        .doOnSubscribe(new Consumer&lt;Disposable&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull Disposable disposable) throws Exception &#123;</span><br><span class="line">                System.out.println(&quot;doOnSubscribe线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">		// 预测2：observeOn切换到线程，doOnNext 在 NewThread-2 线程</span><br><span class="line">        .observeOn(Schedulers.newThread())</span><br><span class="line">        .doOnNext(new Consumer&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                System.out.println(&quot;doOnNext线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">		// 预测3：observeOn切换到线程，doOnComplete 在 NewThread-3 线程</span><br><span class="line">        .observeOn(Schedulers.newThread())</span><br><span class="line">        .doOnComplete(new Action() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() throws Exception &#123;</span><br><span class="line">                System.out.println(&quot;doOnComplete线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">		// 预测4：observeOn切换到线程，subscribe 在 NewThread-4 线程</span><br><span class="line">        .observeOn(Schedulers.newThread())</span><br><span class="line">        .subscribe(new Consumer&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                System.out.println(&quot;subscribe线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;));</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">当前线程----&gt;main</span><br><span class="line">doOnSubscribe线程----&gt;main</span><br><span class="line">Observable线程----&gt;RxComputationThreadPool-1</span><br><span class="line">doOnNext线程----&gt;RxNewThreadScheduler-2</span><br><span class="line">doOnComplete线程----&gt;RxNewThreadScheduler-3</span><br><span class="line">subscribe线程----&gt;RxNewThreadScheduler-4</span><br></pre></td></tr></table></figure>
+
+<p>可以看出我们预测2/3/4点都正确，doOnNext()、doOnComplete()、subscribe都在指定的newThread中，但是预测1却在主线程，说明 observeOn() 不能切换doOnSubscribe()。</p>
+<p>我们再做个这样的测试，把整段代码放在新的 Thread 中执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//新建一个Thread</span><br><span class="line">Thread thread = new Thread()&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;当前线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">        mDisposables.add(Observable</span><br><span class="line">                .create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void subscribe(@NonNull ObservableEmitter&lt;Integer&gt; e) throws Exception &#123;</span><br><span class="line">                        System.out.println(&quot;Observable线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">                        e.onNext(10);</span><br><span class="line">                        e.onComplete();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .subscribeOn(Schedulers.computation())</span><br><span class="line">                .doOnSubscribe(new Consumer&lt;Disposable&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void accept(@NonNull Disposable disposable) throws Exception &#123;</span><br><span class="line">                        System.out.println(&quot;doOnSubscribe线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .observeOn(Schedulers.newThread())</span><br><span class="line">                .subscribe(new Consumer&lt;Integer&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void accept(@NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                        System.out.println(&quot;subscribe线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">//启动线程</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure>
+
+<p>输入日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">当前线程----&gt;Thread-282</span><br><span class="line">doOnSubscribe线程----&gt;Thread-282</span><br><span class="line">Observable线程----&gt;RxComputationThreadPool-1</span><br><span class="line">subscribe线程----&gt;RxNewThreadScheduler-1</span><br></pre></td></tr></table></figure>
+
+<p>看来doOnSubscribe比较特殊，它默认运行在执行该段代码的线程中，我们再用subscribeOn() 切换了线程试试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 预测1、observeOn切换到线程，doOnSubscribe 在 NewThread 线程，切换无效</span><br><span class="line">// .observeOn(Schedulers.newThread())</span><br><span class="line">.doOnSubscribe(new Consumer&lt;Disposable&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void accept(@NonNull Disposable disposable) throws Exception &#123;</span><br><span class="line">        System.out.println(&quot;doOnSubscribe线程----&gt;&quot; + Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">//subscribeOn 切换线程，doOnSubscribe 会不会在 io 线程呢？</span><br><span class="line">.subscribeOn(Schedulers.io())</span><br></pre></td></tr></table></figure>
+
+<p>输入日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">当前线程----&gt;main</span><br><span class="line">doOnSubscribe线程----&gt;RxCachedThreadScheduler-1</span><br><span class="line">Observable线程----&gt;RxComputationThreadPool-1</span><br><span class="line">doOnNext线程----&gt;RxNewThreadScheduler-1</span><br><span class="line">doOnComplete线程----&gt;RxNewThreadScheduler-2</span><br><span class="line">subscribe线程----&gt;RxNewThreadScheduler-3</span><br></pre></td></tr></table></figure>
+
+<p>我们看到用 subscribeOn(Schedulers.io()) 切换到了 IO 线程</p>
+<p>对于 doOnNext()/onNext()，doOnComplete()/onComplete()，doOnError()/onError() 几个方法 (前者是 被观察者 调用的方法，后者是 观察者 接口里面的对应方法) ，可以通过 observeOn() 进行线程的切换。</p>
+<p>而对于 doOnSubscribe()/onSubscribe() 方法 (前者是 被观察者 调用的方法，后者是 观察者 接口里面的对应方法) 来说，如果他后面有调用 subscribeOn() 切换线程，那么它运行在切换的线程，否则他默认运行在执行该段代码的线程中</p>
+<p><strong>示例5 Schedulers.trampoline()：</strong></p>
+<p>通过上面示例我们可以发现，Observer处理数据相比于Observable发射的数据存在滞后的现象，Observable发射了两个数据，Observer才处理了一个，并不是Observable每发射一个，Observer就处理一个。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">    .create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</span><br><span class="line">        for (int i = 1; i &lt; 3; i++) &#123;</span><br><span class="line">            System.out.println(&quot;发射线程：&quot; + Thread.currentThread().getName() + &quot;----&gt;&quot; + &quot;发射：&quot; + i);</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">            emitter.onNext(i);</span><br><span class="line">        &#125;</span><br><span class="line">        emitter.onComplete();</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .observeOn(Schedulers.trampoline())</span><br><span class="line">	// .subscribeOn(Schedulers.trampoline())</span><br><span class="line">	// .observeOn(Schedulers.trampoline())</span><br><span class="line">    .subscribe(integer -&gt; &#123;</span><br><span class="line">        Thread.sleep(2000);</span><br><span class="line">        System.out.println(&quot;接收线程：&quot; + Thread.currentThread().getName() + &quot;----&gt;&quot; + &quot;接收：&quot; + integer);</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：1</span><br><span class="line">接收线程：RxCachedThreadScheduler-1----&gt;接收：1</span><br><span class="line">发射线程：RxCachedThreadScheduler-1----&gt;发射：2</span><br><span class="line">接收线程：RxCachedThreadScheduler-1----&gt;接收：2</span><br></pre></td></tr></table></figure>
+
+<p>可以看到日志是按  发射-&gt;处理-&gt;接收 的顺序打印的，说明 Observable 在 Observer 将数据处理完之后才开始发射下一条。Schedulers.trampoline() 的作用 在<strong>当前线程</strong>（当前线程是IO线程）立即执行任务，如果当前线程有任务在执行，则会将其暂停，等插入进来的任务执行完之后，再将未完成的任务接着执行。</p>
+<p>我们这样改下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   // .subscribeOn(Schedulers.io())</span><br><span class="line">   // .observeOn(Schedulers.trampoline())</span><br><span class="line">.subscribeOn(Schedulers.trampoline())</span><br><span class="line">.observeOn(Schedulers.trampoline())</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">发射线程：main----&gt;发射：1</span><br><span class="line">接收线程：main----&gt;接收：1</span><br><span class="line">发射线程：main----&gt;发射：2</span><br><span class="line">接收线程：main----&gt;接收：2</span><br></pre></td></tr></table></figure>
+
+<p>我们都注释掉：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   // .subscribeOn(Schedulers.io())</span><br><span class="line">   // .observeOn(Schedulers.trampoline())</span><br><span class="line">// .subscribeOn(Schedulers.trampoline())</span><br><span class="line">// .observeOn(Schedulers.trampoline())</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">发射线程：main----&gt;发射：1</span><br><span class="line">接收线程：main----&gt;接收：1</span><br><span class="line">发射线程：main----&gt;发射：2</span><br><span class="line">接收线程：main----&gt;接收：2</span><br></pre></td></tr></table></figure>
+
+<p>和上面一样<br>说明 Schedulers.trampoline() 是作用当前主线程main上，相当于不指定线程。</p>
+<p><strong>示例6 Schedulers.single()：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">    .create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</span><br><span class="line">        for (int i = 1; i &lt; 3; i++) &#123;</span><br><span class="line">            System.out.println(&quot;发射线程：&quot; + Thread.currentThread().getName() + &quot;----&gt;&quot; + &quot;发射：&quot; + i);</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">            emitter.onNext(i);</span><br><span class="line">        &#125;</span><br><span class="line">        emitter.onComplete();</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.single())</span><br><span class="line">    .observeOn(Schedulers.single())</span><br><span class="line">    .map(integer -&gt; &#123;</span><br><span class="line">        System.out.println(&quot;处理线程：&quot; + Thread.currentThread().getName() + &quot;----&gt;&quot; + &quot;处理：&quot; + integer);</span><br><span class="line">        return integer;</span><br><span class="line">    &#125;)</span><br><span class="line">    .observeOn(Schedulers.single())</span><br><span class="line">    .subscribe(integer -&gt; &#123;</span><br><span class="line">        System.out.println(&quot;接收线程：&quot; + Thread.currentThread().getName() + &quot;----&gt;&quot; + &quot;接收：&quot; + integer);</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">发射线程：RxSingleScheduler-1----&gt;发射：1</span><br><span class="line">发射线程：RxSingleScheduler-1----&gt;发射：2</span><br><span class="line">处理线程：RxSingleScheduler-1----&gt;处理：1</span><br><span class="line">处理线程：RxSingleScheduler-1----&gt;处理：2</span><br><span class="line">接收线程：RxSingleScheduler-1----&gt;接收：1</span><br><span class="line">接收线程：RxSingleScheduler-1----&gt;接收：2</span><br></pre></td></tr></table></figure>
+
+<p>通过Schedulers.single()将数据的发射，处理，接收在Schedulers.single()的线程单例中排队执行，当此线程中有任务执行时，其他任务将会按照先进先出的顺序依次执行。</p>
+<p><strong>下面举个完整的示例，需求是这样的：</strong></p>
+<p>  （1）在io线程请求服务器数据；<br><br>  （2）请求之前需要在主线程显示 Loading dialog；<br><br>  （3）数据返回后在 computation() 处理；<br><br>  （4）处理完成后在 io() 存入数据库；<br><br>  （5）主线程 更新UI；<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">    .create(new ObservableOnSubscribe&lt;List&lt;String&gt;&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void subscribe(ObservableEmitter&lt;List&lt;String&gt;&gt; emitter) throws Exception &#123;</span><br><span class="line">            System.out.println(&quot;IO线程----&gt;发起网络请求，请求服务器数据&quot;);</span><br><span class="line">            // TODO: 2019/8/23 请求网络</span><br><span class="line">            List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">            for (int i=0;i&lt;10;i++)&#123;</span><br><span class="line">                list.add(&quot;数据&quot;+i);</span><br><span class="line">            &#125;</span><br><span class="line">            emitter.onNext(list);</span><br><span class="line">            emitter.onComplete();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .doOnSubscribe(new Consumer&lt;Disposable&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void accept(Disposable disposable) throws Exception &#123;</span><br><span class="line">            System.out.println(&quot;UI主线程----&gt;显示 Loading dialog&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .observeOn(Schedulers.computation())</span><br><span class="line">    .filter(new Predicate&lt;List&lt;String&gt;&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean test(List&lt;String&gt; list) throws Exception &#123;</span><br><span class="line">            //list 从服务器请求的数据</span><br><span class="line">            System.out.println(&quot;计算线程处理----&gt;处理数据&quot;);</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .observeOn(Schedulers.io())</span><br><span class="line">    .doOnNext(new Consumer&lt;List&lt;String&gt;&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void accept(List&lt;String&gt; filterList) throws Exception &#123;</span><br><span class="line">            //filterList 处理后的数据</span><br><span class="line">            System.out.println(&quot;IO线程----&gt;存入数据库&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribe(new Consumer&lt;List&lt;String&gt;&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void accept(List&lt;String&gt; list) throws Exception &#123;</span><br><span class="line">            //str 处理之后的数据</span><br><span class="line">            System.out.println(&quot;UI主线程----&gt;显示数据更新UI&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>打印日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">UI主线程----&gt;显示 Loading dialog</span><br><span class="line">IO线程----&gt;发起网络请求，请求服务器数据</span><br><span class="line">计算线程处理----&gt;处理数据</span><br><span class="line">IO线程----&gt;存入数据库</span><br><span class="line">UI主线程----&gt;显示数据更新UI</span><br></pre></td></tr></table></figure>
+
+<p>通过以上示例，我们可以总结subscribeOn和observeOn的用法如下:</p>
+<p>subscribeOn 用来声明上游事件发送时的所在线程，若多次设定，上游会运行在 最早 的一次调用声明的线程中。<br><br>observeOn 指定下游操作所在的线程。若多次设定，每次均起作用。如若不指定下游线程，则默认在上游所在的线程中</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-25T03:04:58.275Z" itemprop="dateUpdated">2019-09-25 11:04:58</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/rxjava-schedul/" target="_blank" rel="external">http://wblog.work/rxjava-schedul/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://wblog.work">
+            <img src="/img/avatar.jpg" alt="gs-wenbing">
+            gs-wenbing
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
+
+
+            
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/反射/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【转】java反射基础学习（附demo）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        
+    </div>
+    <div class="bottom">
+        <p><span>gs-wenbing &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: false, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

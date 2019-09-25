@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://wblog.work/rxjava-schedul/</loc>
+    
+    <lastmod>2019-09-25T03:04:58.275Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://wblog.work/tags/index.html</loc>
     
     <lastmod>2019-09-23T09:53:08.153Z</lastmod>
