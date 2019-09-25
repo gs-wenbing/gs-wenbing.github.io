@@ -56,18 +56,18 @@
   };
 </script>
 
-  <meta name="description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
+  <meta name="description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler.我们可以使用使用 subscribeOn() 和 observeOn()">
 <meta name="keywords" content="Rxjava">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rxjava - RxScheduler示例和详细解析">
 <meta property="og:url" content="http://www.wblog.work/rxjava-schedul/index.html">
 <meta property="og:site_name" content="wenbing-blog">
-<meta property="og:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
+<meta property="og:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler.我们可以使用使用 subscribeOn() 和 observeOn()">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-25T03:07:19.129Z">
+<meta property="og:updated_time" content="2019-09-25T08:43:15.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rxjava - RxScheduler示例和详细解析">
-<meta name="twitter:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
+<meta name="twitter:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler.我们可以使用使用 subscribeOn() 和 observeOn()">
   <link rel="canonical" href="http://www.wblog.work/rxjava-schedul/">
 
 
@@ -313,7 +313,7 @@
                 
               
 
-              <time title="创建时间：2019-09-25 11:21:27 / 修改时间：11:07:19" itemprop="dateCreated datePublished" datetime="2019-09-25T11:21:27+08:00">2019-09-25</time>
+              <time title="创建时间：2019-09-25 11:21:27 / 修改时间：16:43:15" itemprop="dateCreated datePublished" datetime="2019-09-25T11:21:27+08:00">2019-09-25</time>
             </span>
           
             
@@ -354,8 +354,8 @@
 
       
         <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先了解 Schedulers 和 Scheduler 的概念<br></p>
-<p><strong>Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程<br><br>而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler<br><br>我们可以使用使用 subscribeOn() 和 observeOn() 两个方法来对线程进行控制。</strong></p>
-<p>比如常用的 Observable 生成发射数据流，以及 Operators 加工数据流都是在后台线程中进行，而 Observer 在前台线程中接受并相应数据。</p>
+<p><strong>Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程<br>而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler.<br>我们可以使用使用 subscribeOn() 和 observeOn() 两个方法来对线程进行控制。</strong><br>比如常用的 Observable 生成发射数据流，以及 Operators 加工数据流都是在后台线程中进行，而 Observer 在前台线程中接受并相应数据。</p>
+<a id="more"></a>
 <h5 id="subscribeOn-和-observeOn"><a href="#subscribeOn-和-observeOn" class="headerlink" title="subscribeOn() 和 observeOn()"></a>subscribeOn() 和 observeOn()</h5><ul>
 <li><p>subscribeOn(): 指定 ObservableOnSubscribe#subscribe() 所发生的线程，即 Observable.OnSubscribe 被激活时所处的线程。或者叫做事件产生的线程，我把他叫做上游。<br><br>当调用多次 subscribeOn() 时，事件产生会运行在最早的一次调用声明的线程中。当然也不是说多次的调用是完全没效果的，后面会提到。</p>
 </li>
