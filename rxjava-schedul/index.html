@@ -13,6 +13,23 @@
 
 
 
+<!-- Baidu Push -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- End Baidu Push -->
+
 
     <meta charset="utf-8">
     
@@ -34,7 +51,7 @@
 <meta property="og:site_name" content="wenbing-blog">
 <meta property="og:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-25T03:04:58.275Z">
+<meta property="og:updated_time" content="2019-09-25T03:07:19.129Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rxjava - RxScheduler示例和详细解析">
 <meta name="twitter:description" content="概述首先了解 Schedulers 和 Scheduler 的概念 Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler我们可以使用使用 subscribeOn() 和 observeOn()">
@@ -210,9 +227,9 @@
 <li><p>Schedulers.from(@NonNull Executor executor);<br><br>使用指定的 Executor 作为调度器</p>
 </li>
 <li><p>AndroidSchedulers.mainThread();<br><br>它指定的操作将在 Android 主线程运行</p>
-</li>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3></li>
 </ul>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>以下示例部分参考：<a href="https://www.jianshu.com/p/12638513424f" target="_blank" rel="noopener">https://www.jianshu.com/p/12638513424f</a>   <br><br>自己再敲一遍，有助于更深层的理解</p>
+<p>以下示例部分参考：<a href="https://www.jianshu.com/p/12638513424f" target="_blank" rel="noopener">https://www.jianshu.com/p/12638513424f</a>   <br><br>自己再敲一遍，有助于更深层的理解</p>
 <p><strong>示例1 使用一次subscribeOn和一次observeOn：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">    .create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</span><br><span class="line">        for (int i =1;i&lt;3;i++)&#123;</span><br><span class="line">            System.out.println(&quot;发射线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;发射：&quot;+i);</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">            emitter.onNext(i);</span><br><span class="line">        &#125;</span><br><span class="line">        emitter.onComplete();</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribe(integer -&gt; System.out.println(&quot;接收线程：&quot;+Thread.currentThread().getName()+&quot;----&gt;&quot;+&quot;接收：&quot;+integer)));</span><br></pre></td></tr></table></figure>
 
@@ -301,7 +318,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-09-25T03:04:58.275Z" itemprop="dateUpdated">2019-09-25 11:04:58</time>
+    最后更新时间：<time datetime="2019-09-25T03:07:19.129Z" itemprop="dateUpdated">2019-09-25 11:07:19</time>
 </span><br>
 
 
