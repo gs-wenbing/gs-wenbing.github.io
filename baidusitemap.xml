@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://www.wblog.work/annotation/</loc>
+    <loc>http://www.wblog.work/rxjava-schedul/</loc>
     <lastmod>2019-09-25</lastmod>
   </url>  <url>
     <loc>http://www.wblog.work/reflection/</loc>
     <lastmod>2019-09-25</lastmod>
   </url>  <url>
-    <loc>http://www.wblog.work/rxjava-schedul/</loc>
+    <loc>http://www.wblog.work/annotation/</loc>
     <lastmod>2019-09-25</lastmod>
   </url>
 </urlset>

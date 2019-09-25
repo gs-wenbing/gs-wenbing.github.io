@@ -14,11 +14,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
   <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
-  <link rel="alternate" href="/atom.xml" title="wenbing-blog" type="application/atom+xml">
 
 <link rel="stylesheet" href="/css/main.css?v=7.4.0">
 
-
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
 
@@ -44,8 +43,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
       copy_button: '复制',
@@ -254,9 +253,36 @@
     <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">3</span></a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -311,7 +337,7 @@
                 
               
 
-              <time title="创建时间：2019-09-25 11:21:27 / 修改时间：16:43:15" itemprop="dateCreated datePublished" datetime="2019-09-25T11:21:27+08:00">2019-09-25</time>
+              <time title="创建时间：2019-09-25 11:21:27 / 修改时间：17:41:40" itemprop="dateCreated datePublished" datetime="2019-09-25T11:21:27+08:00">2019-09-25</time>
             </span>
           
             
@@ -343,8 +369,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先了解 Schedulers 和 Scheduler 的概念<br></p>
-<p><strong>Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程<br>而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler.<br>我们可以使用使用 subscribeOn() 和 observeOn() 两个方法来对线程进行控制。</strong><br>比如常用的 Observable 生成发射数据流，以及 Operators 加工数据流都是在后台线程中进行，而 Observer 在前台线程中接受并相应数据。</p>
+          <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>首先了解 Schedulers 和 Scheduler 的概念<br>Scheduler 是负责执行任务的单元, 调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程，而 Schedulers 是创建各种 Scheduler 的工厂，Schedulers.io()等等都返回的是 Scheduler。</p>
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -417,7 +442,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-09-25 16:43:28" itemprop="dateModified" datetime="2019-09-25T16:43:28+08:00">2019-09-25</time>
+                <time title="修改时间：2019-09-25 17:19:23" itemprop="dateModified" datetime="2019-09-25T17:19:23+08:00">2019-09-25</time>
               </span>
             
           
@@ -446,8 +471,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="什么是反射（Reflection）"><a href="#什么是反射（Reflection）" class="headerlink" title="什么是反射（Reflection）"></a>什么是反射（Reflection）</h4><p>Java 反射机制是在<strong>运行状态</strong>中，对于任意一个类，都能够知道这个类的所有的属性和方法；对于任意一个对象，都能够调用它的任何方法和属性；也就是说反射机制在程序运行的过程中，能够获取任何已知名称的类的内部信息，并在执行过程中，动态生成对象实体、对fields设值、或者调用methods。</p>
-<p>这种在程序运行过程中，动态获取类的信息以及动态调用方法的功能称为Java的反射机制。</p>
+          <p>Java 反射机制是在<strong>运行状态</strong>中，对于任意一个类，都能够知道这个类的所有的属性和方法；对于任意一个对象，都能够调用它的任何方法和属性；</p>
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -520,7 +544,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-09-25 16:43:32" itemprop="dateModified" datetime="2019-09-25T16:43:32+08:00">2019-09-25</time>
+                <time title="修改时间：2019-09-25 17:13:56" itemprop="dateModified" datetime="2019-09-25T17:13:56+08:00">2019-09-25</time>
               </span>
             
           
@@ -549,8 +573,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h4><p>注解，标签</p>
-<p>其实同class和interface一样，注解也属于一种类型。它是在Java SE 5.0版本中开始引入的概念。</p>
+          <p>其实同class和interface一样，注解也属于一种类型。它是在Java SE 5.0版本中开始引入的概念。</p>
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -636,26 +659,29 @@
       
       <div class="site-state-item site-state-categories">
         
+          
+            <a href="/categories/">
+          
+        
         <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">分类</span>
-        
+        </a>
       </div>
     
       
       
       <div class="site-state-item site-state-tags">
         
+          
+            <a href="/tags/">
+          
+        
         <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span>
-        
+        </a>
       </div>
     
   </nav>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
       
@@ -755,6 +781,15 @@
 
 
   
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
 
 
 
@@ -762,6 +797,8 @@
 
 
 
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
 
 
 
