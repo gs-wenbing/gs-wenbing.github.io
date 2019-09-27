@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[EasyUI的对话框（dialog）按钮重复点击的问题]]></title>
+    <url>%2Feasyui-repeatclick%2F</url>
+    <content type="text"><![CDATA[EasyUI的对话框（dialog）按钮重复点击，导致多次请求数据 第一种实现思路，点击一次后把请求数据的按钮设置为disable 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556$('#mydialog').dialog(&#123; width: 500, height: 250, modal: true, title: 'my dialog', iconCls: 'icon-edit', minimizable: false, closed: true, maximizable: false, buttons: [ &#123; id:"submit", text: '确定', iconCls: 'icon-ok', handler: function() &#123; requestData(this); &#125; &#125;, &#123; text: '关闭', iconCls: 'icon-no', handler: function() &#123; $('#mydialog').dialog("close"); &#125; &#125; ], onClose: function() &#123; $("#form1").form("clear"); &#125;&#125;);function requestData(button) &#123; $(button).linkbutton('disable'); //参数 var param=&#123;&#125;; $.ajax(&#123; url: '/api/requestData', type: 'post', data: &#123; param &#125;, dataType: 'json', success: function(res) &#123; $(button).linkbutton('enable'); if (res.IsSuccess) &#123; $.messager.alert("提示", "操作成功", "info", function() &#123; location.reload(); &#125;); &#125; else &#123; $.messager.alert("提示", res.ErrMsg, "info"); &#125; &#125;, error: function() &#123; $(button).linkbutton('enable'); $.messager.alert('提示', '请求出错！', 'error'); &#125; &#125;);&#125; 注意EasyUI的dialog的按钮设置disable和jQuery不一样，jQuery通过$(button).attr(‘disable’:”true”)来设置，但是EasyUI是通过$(button).linkbutton(‘enable’)来设置。 第二种方式，给button设置flag，点击一次后flag设置1，判断flag为1时提示toast 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667$('#mydialog').dialog(&#123; width: 500, height: 250, modal: true, title: 'my dialog', iconCls: 'icon-edit', minimizable: false, closed: true, maximizable: false, buttons: [ &#123; id:"submit", text: '确定', iconCls: 'icon-ok', handler: function() &#123; if($('#submit').attr("flag")!=1)&#123; requestData(); &#125;else&#123; $.messager.show(&#123; title:' ', msg:'请不要重复提交', showType:'fade', timeout:1000, style:&#123; &#125; &#125;); &#125; $('#submit').attr("flag", 1); &#125; &#125;, &#123; text: '关闭', iconCls: 'icon-no', handler: function() &#123; $('#mydialog').dialog("close"); &#125; &#125; ], onClose: function() &#123; $("#form1").form("clear"); &#125;&#125;);function requestData() &#123; //参数 var param=&#123;&#125;; $.ajax(&#123; url: '/api/requestData', type: 'post', data: &#123; param &#125;, dataType: 'json', success: function(res) &#123; $('#submit').removeAttr("flag"); if (res.IsSuccess) &#123; $.messager.alert("提示", "操作成功", "info", function() &#123; location.reload(); &#125;); &#125; else &#123; $.messager.alert("提示", res.ErrMsg, "info"); &#125; &#125;, error: function() &#123; $('#submit').removeAttr("flag"); $.messager.alert('提示', '请求出错！', 'error'); &#125; &#125;);&#125; 参考EasyUI官网：http://www.jeasyui.com/documentation/index.php#]]></content>
+      <categories>
+        <category>技术</category>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>EasyUI</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[HTML select的onchange()事件不触发]]></title>
     <url>%2FHTML-selecton-change%2F</url>
     <content type="text"><![CDATA[最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。 下面是代码： 1234567891011121314151617//省去无关代码&lt;select onchange="fun()" id="CategoryName" class="easyui-combobox" editable="false"&gt; &lt;option value=""&gt;全部&lt;/option&gt; @foreach (var item in noticeCategoryGroup) &#123; &lt;option value="@item.Key"&gt;@item.Value&lt;/option&gt; &#125;&lt;/select&gt;//省去无关代码&lt;script&gt; function fun()&#123; alert(1); &#125;&lt;/script&gt; 上面代码中死活不能触发onchange，各种百度，都是这样写的，又试了下面这种方式： 123$('#CategoryName').change(function(data)&#123; alert(1);&#125;) 还是不行，奇了怪了。在仔细一看会不会是 easyui-combobox在捣鬼。 于是又搜easyui-combobox的onchange()的事件，果然是！ 12345$('#CategoryName').combobox(&#123; onChange:function(n,o)&#123; alert(1); &#125; &#125;); n代表选中的新值，o代表上一个值。 下面是easyui-combobox的所有事件： 参考EasyUI官网：http://www.jeasyui.com/documentation/index.php#]]></content>
@@ -9,9 +22,9 @@
         <category>前端</category>
       </categories>
       <tags>
-        <tag>HTML</tag>
         <tag>js</tag>
         <tag>EasyUI</tag>
+        <tag>HTML</tag>
       </tags>
   </entry>
   <entry>

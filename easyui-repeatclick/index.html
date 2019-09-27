@@ -55,21 +55,19 @@
   };
 </script>
 
-  <meta name="description" content="最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。">
-<meta name="keywords" content="js,EasyUI,HTML">
+  <meta name="description" content="EasyUI的对话框（dialog）按钮重复点击，导致多次请求数据">
+<meta name="keywords" content="js,EasyUI">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTML select的onchange()事件不触发">
-<meta property="og:url" content="http://www.wblog.work/HTML-selecton-change/index.html">
+<meta property="og:title" content="EasyUI的对话框（dialog）按钮重复点击的问题">
+<meta property="og:url" content="http://www.wblog.work/easyui-repeatclick/index.html">
 <meta property="og:site_name" content="wenbing-blog">
-<meta property="og:description" content="最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。">
+<meta property="og:description" content="EasyUI的对话框（dialog）按钮重复点击，导致多次请求数据">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.wblog.work/HTML-selecton-change/combobox-onchange.png">
-<meta property="og:updated_time" content="2019-09-27T06:50:31.770Z">
+<meta property="og:updated_time" content="2019-09-27T06:47:09.976Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTML select的onchange()事件不触发">
-<meta name="twitter:description" content="最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。">
-<meta name="twitter:image" content="http://www.wblog.work/HTML-selecton-change/combobox-onchange.png">
-  <link rel="canonical" href="http://www.wblog.work/HTML-selecton-change/">
+<meta name="twitter:title" content="EasyUI的对话框（dialog）按钮重复点击的问题">
+<meta name="twitter:description" content="EasyUI的对话框（dialog）按钮重复点击，导致多次请求数据">
+  <link rel="canonical" href="http://www.wblog.work/easyui-repeatclick/">
 
 
 <script id="page-configurations">
@@ -83,7 +81,7 @@
   };
 </script>
 
-  <title>HTML select的onchange()事件不触发 | wenbing-blog</title>
+  <title>EasyUI的对话框（dialog）按钮重复点击的问题 | wenbing-blog</title>
   
 
 
@@ -313,7 +311,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/HTML-selecton-change/">
+    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/easyui-repeatclick/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="gs-wenbing">
@@ -325,7 +323,7 @@
       <meta itemprop="name" content="wenbing-blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">HTML select的onchange()事件不触发
+        <h1 class="post-title" itemprop="name headline">EasyUI的对话框（dialog）按钮重复点击的问题
 
           
         </h1>
@@ -341,7 +339,7 @@
                 
               
 
-              <time title="创建时间：2019-09-27 11:21:27" itemprop="dateCreated datePublished" datetime="2019-09-27T11:21:27+08:00">2019-09-27</time>
+              <time title="创建时间：2019-09-27 14:21:27" itemprop="dateCreated datePublished" datetime="2019-09-27T14:21:27+08:00">2019-09-27</time>
             </span>
           
             <span class="post-meta-item">
@@ -384,21 +382,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。</p>
+        <p>EasyUI的对话框（dialog）按钮重复点击，导致多次请求数据</p>
 <a id="more"></a>
-<p>下面是代码：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//省去无关代码</span><br><span class="line"></span><br><span class="line">&lt;<span class="keyword">select</span> onchange="fun()" id="CategoryName"  <span class="keyword">class</span>="easyui-combobox"  editable="false"&gt;</span><br><span class="line">	&lt;<span class="keyword">option</span> <span class="keyword">value</span>=""&gt;全部&lt;/<span class="keyword">option</span>&gt;</span><br><span class="line">	@<span class="keyword">foreach</span> (var item <span class="keyword">in</span> noticeCategoryGroup)</span><br><span class="line">	 &#123;</span><br><span class="line">	 &lt;<span class="keyword">option</span> <span class="keyword">value</span>="@item.Key"&gt;@item.<span class="keyword">Value</span>&lt;/<span class="keyword">option</span>&gt;</span><br><span class="line">	 &#125;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br><span class="line"></span><br><span class="line">//省去无关代码</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	<span class="keyword">function</span> fun()&#123;</span><br><span class="line">		alert(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>第一种实现思路，点击一次后把请求数据的按钮设置为disable</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#mydialog'</span>).dialog(&#123;</span><br><span class="line">    width: <span class="number">500</span>,</span><br><span class="line">    height: <span class="number">250</span>,</span><br><span class="line">    modal: <span class="literal">true</span>,</span><br><span class="line">    title: <span class="string">'my dialog'</span>,</span><br><span class="line">    iconCls: <span class="string">'icon-edit'</span>,</span><br><span class="line">    minimizable: <span class="literal">false</span>,</span><br><span class="line">    closed: <span class="literal">true</span>,</span><br><span class="line">    maximizable: <span class="literal">false</span>,</span><br><span class="line">    buttons: [</span><br><span class="line">        &#123;</span><br><span class="line">            id:<span class="string">"submit"</span>,</span><br><span class="line">            text: <span class="string">'确定'</span>,</span><br><span class="line">            iconCls: <span class="string">'icon-ok'</span>,</span><br><span class="line">            handler: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                requestData(<span class="keyword">this</span>); </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            text: <span class="string">'关闭'</span>,</span><br><span class="line">            iconCls: <span class="string">'icon-no'</span>,</span><br><span class="line">            handler: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                $(<span class="string">'#mydialog'</span>).dialog(<span class="string">"close"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    onClose: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="string">"#form1"</span>).form(<span class="string">"clear"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestData</span>(<span class="params">button</span>) </span>&#123;</span><br><span class="line">    $(button).linkbutton(<span class="string">'disable'</span>);</span><br><span class="line">	<span class="comment">//参数</span></span><br><span class="line">    <span class="keyword">var</span> param=&#123;&#125;;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url: <span class="string">'/api/requestData'</span>,</span><br><span class="line">        type: <span class="string">'post'</span>,</span><br><span class="line">        data: &#123; param &#125;,</span><br><span class="line">        dataType: <span class="string">'json'</span>,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">			$(button).linkbutton(<span class="string">'enable'</span>);</span><br><span class="line">            <span class="keyword">if</span> (res.IsSuccess) &#123;</span><br><span class="line">                $.messager.alert(<span class="string">"提示"</span>, <span class="string">"操作成功"</span>, <span class="string">"info"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    location.reload();</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $.messager.alert(<span class="string">"提示"</span>, res.ErrMsg, <span class="string">"info"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        error: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            $(button).linkbutton(<span class="string">'enable'</span>); </span><br><span class="line">            $.messager.alert(<span class="string">'提示'</span>, <span class="string">'请求出错！'</span>, <span class="string">'error'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>上面代码中死活不能触发onchange，各种百度，都是这样写的，又试了下面这种方式：</p>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#CategoryName'</span>).change(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	alert(<span class="number">1</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>注意EasyUI的dialog的按钮设置disable和jQuery不一样，jQuery通过$(button).attr(‘disable’:”true”)来设置，但是EasyUI是通过$(button).linkbutton(‘enable’)来设置。</p>
+<p>第二种方式，给button设置flag，点击一次后flag设置1，判断flag为1时提示toast</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#mydialog'</span>).dialog(&#123;</span><br><span class="line">    width: <span class="number">500</span>,</span><br><span class="line">    height: <span class="number">250</span>,</span><br><span class="line">    modal: <span class="literal">true</span>,</span><br><span class="line">    title: <span class="string">'my dialog'</span>,</span><br><span class="line">    iconCls: <span class="string">'icon-edit'</span>,</span><br><span class="line">    minimizable: <span class="literal">false</span>,</span><br><span class="line">    closed: <span class="literal">true</span>,</span><br><span class="line">    maximizable: <span class="literal">false</span>,</span><br><span class="line">    buttons: [</span><br><span class="line">        &#123;</span><br><span class="line">            id:<span class="string">"submit"</span>,</span><br><span class="line">            text: <span class="string">'确定'</span>,</span><br><span class="line">            iconCls: <span class="string">'icon-ok'</span>,</span><br><span class="line">            handler: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>($(<span class="string">'#submit'</span>).attr(<span class="string">"flag"</span>)!=<span class="number">1</span>)&#123;</span><br><span class="line">                    requestData();</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    $.messager.show(&#123;</span><br><span class="line">                        title:<span class="string">' '</span>,</span><br><span class="line">                        msg:<span class="string">'请不要重复提交'</span>,</span><br><span class="line">                        showType:<span class="string">'fade'</span>,</span><br><span class="line">                        timeout:<span class="number">1000</span>,</span><br><span class="line">                        style:&#123;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">                $(<span class="string">'#submit'</span>).attr(<span class="string">"flag"</span>, <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            text: <span class="string">'关闭'</span>,</span><br><span class="line">            iconCls: <span class="string">'icon-no'</span>,</span><br><span class="line">            handler: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                $(<span class="string">'#mydialog'</span>).dialog(<span class="string">"close"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    onClose: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="string">"#form1"</span>).form(<span class="string">"clear"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">//参数</span></span><br><span class="line">    <span class="keyword">var</span> param=&#123;&#125;;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url: <span class="string">'/api/requestData'</span>,</span><br><span class="line">        type: <span class="string">'post'</span>,</span><br><span class="line">        data: &#123; param &#125;,</span><br><span class="line">        dataType: <span class="string">'json'</span>,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">            $(<span class="string">'#submit'</span>).removeAttr(<span class="string">"flag"</span>);</span><br><span class="line">            <span class="keyword">if</span> (res.IsSuccess) &#123;</span><br><span class="line">                $.messager.alert(<span class="string">"提示"</span>, <span class="string">"操作成功"</span>, <span class="string">"info"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    location.reload();</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $.messager.alert(<span class="string">"提示"</span>, res.ErrMsg, <span class="string">"info"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        error: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            $(<span class="string">'#submit'</span>).removeAttr(<span class="string">"flag"</span>);</span><br><span class="line">            $.messager.alert(<span class="string">'提示'</span>, <span class="string">'请求出错！'</span>, <span class="string">'error'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>还是不行，奇了怪了。在仔细一看会不会是 easyui-combobox在捣鬼。</p>
-<p>于是又搜easyui-combobox的onchange()的事件，果然是！</p>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#CategoryName'</span>).combobox(&#123;</span><br><span class="line">        onChange:<span class="function"><span class="keyword">function</span>(<span class="params">n,o</span>)</span>&#123;</span><br><span class="line">           alert(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>n代表选中的新值，o代表上一个值。</p>
-<p>下面是easyui-combobox的所有事件：</p>
-<p><img src="/HTML-selecton-change/combobox-onchange.png" alt><br>参考EasyUI官网：<br><a href="http://www.jeasyui.com/documentation/index.php#" target="_blank" rel="noopener">http://www.jeasyui.com/documentation/index.php#</a></p>
+<p>参考EasyUI官网：<br><a href="http://www.jeasyui.com/documentation/index.php#" target="_blank" rel="noopener">http://www.jeasyui.com/documentation/index.php#</a></p>
 
     </div>
 
@@ -415,7 +408,7 @@
     <strong>本文作者： </strong>gs-wenbing</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wblog.work/HTML-selecton-change/" title="HTML select的onchange()事件不触发">http://www.wblog.work/HTML-selecton-change/</a>
+    <a href="http://www.wblog.work/easyui-repeatclick/" title="EasyUI的对话框（dialog）按钮重复点击的问题">http://www.wblog.work/easyui-repeatclick/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -434,8 +427,6 @@
             
               <a href="/tags/EasyUI/" rel="tag"><i class="fa fa-tag"></i> EasyUI</a>
             
-              <a href="/tags/HTML/" rel="tag"><i class="fa fa-tag"></i> HTML</a>
-            
           </div>
         
 
@@ -444,8 +435,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/rxjava-schedul/" rel="next" title="Rxjava2 - RxScheduler示例和详细解析">
-                  <i class="fa fa-chevron-left"></i> Rxjava2 - RxScheduler示例和详细解析
+                <a href="/HTML-selecton-change/" rel="next" title="HTML select的onchange()事件不触发">
+                  <i class="fa fa-chevron-left"></i> HTML select的onchange()事件不触发
                 </a>
               
             </div>
@@ -453,10 +444,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/easyui-repeatclick/" rel="prev" title="EasyUI的对话框（dialog）按钮重复点击的问题">
-                  EasyUI的对话框（dialog）按钮重复点击的问题 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
