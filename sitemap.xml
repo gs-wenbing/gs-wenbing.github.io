@@ -2,9 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.wblog.work/HTML-selecton-change/</loc>
+    
+    <lastmod>2019-09-27T02:30:43.935Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.wblog.work/about/index.html</loc>
     
-    <lastmod>2019-09-26T09:22:18.544Z</lastmod>
+    <lastmod>2019-09-27T02:20:19.157Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.wblog.work/annotation/</loc>
+    
+    <lastmod>2019-09-27T02:13:56.325Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.wblog.work/reflection/</loc>
+    
+    <lastmod>2019-09-27T02:11:16.992Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.wblog.work/rxjava-schedul/</loc>
+    
+    <lastmod>2019-09-27T01:42:14.607Z</lastmod>
     
   </url>
   
@@ -12,27 +40,6 @@
     <loc>http://www.wblog.work/photos/index.html</loc>
     
     <lastmod>2019-09-26T09:15:51.337Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.wblog.work/rxjava-schedul/</loc>
-    
-    <lastmod>2019-09-26T08:42:56.333Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.wblog.work/reflection/</loc>
-    
-    <lastmod>2019-09-26T08:42:53.074Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.wblog.work/annotation/</loc>
-    
-    <lastmod>2019-09-26T08:42:50.679Z</lastmod>
     
   </url>
   
