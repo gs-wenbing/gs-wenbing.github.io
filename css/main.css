@@ -1717,7 +1717,7 @@ article:last-child .post-eof {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #fff5ff;
+  background: #eb589d;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2832,13 +2832,6 @@ ul.breadcrumb li + li:last-child {
   .pagination {
     margin: 8px 0 0;
   }
-}
-.post {
-  width: 100%;
-  margin-top: 1em;
-  margin-bottom: 3em;
-  padding: 1em;
-  -webkit-box-shadow: 0 0 0.5em rgba(202,203,203,0.5);
 }
 ::selection {
   background: #39f;
