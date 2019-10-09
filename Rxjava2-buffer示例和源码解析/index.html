@@ -55,21 +55,21 @@
   };
 </script>
 
-  <meta name="description" content="Buffer收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。 Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。 注意：如果原来的Observable发射了一个onError通知，Buffer会立即传递这个通知，而不是首先发射缓存的数据">
+  <meta name="description" content="buffer示例和源码解析">
 <meta name="keywords" content="Rxjava">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rxjava2 - buffer示例和源码解析">
-<meta property="og:url" content="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/index.html">
+<meta property="og:url" content="http://www.wblog.work/Rxjava2-buffer示例和源码解析/index.html">
 <meta property="og:site_name" content="wenbing-blog">
-<meta property="og:description" content="Buffer收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。 Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。 注意：如果原来的Observable发射了一个onError通知，Buffer会立即传递这个通知，而不是首先发射缓存的数据">
+<meta property="og:description" content="buffer示例和源码解析">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/gs-wenbing/RxJavaDemo/master/app/images/buffer.png">
-<meta property="og:updated_time" content="2019-10-09T03:04:35.678Z">
+<meta property="og:updated_time" content="2019-10-09T03:12:26.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rxjava2 - buffer示例和源码解析">
-<meta name="twitter:description" content="Buffer收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。 Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。 注意：如果原来的Observable发射了一个onError通知，Buffer会立即传递这个通知，而不是首先发射缓存的数据">
+<meta name="twitter:description" content="buffer示例和源码解析">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/gs-wenbing/RxJavaDemo/master/app/images/buffer.png">
-  <link rel="canonical" href="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/">
+  <link rel="canonical" href="http://www.wblog.work/Rxjava2-buffer示例和源码解析/">
 
 
 <script id="page-configurations">
@@ -311,7 +311,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/">
+    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2-buffer示例和源码解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="gs-wenbing">
@@ -382,7 +382,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/Rxjava2 - buffer示例和源码解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2 - buffer示例和源码解析/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/Rxjava2-buffer示例和源码解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2-buffer示例和源码解析/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -396,7 +396,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <a id="more"></a>
+        <p>buffer示例和源码解析</p>
+<a id="more"></a>
 
 <h4 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h4><p>收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。</p>
 <p>Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。</p>
@@ -510,7 +511,7 @@
     <strong>本文作者： </strong>gs-wenbing</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/" title="Rxjava2 - buffer示例和源码解析">http://www.wblog.work/Rxjava2 - buffer示例和源码解析/</a>
+    <a href="http://www.wblog.work/Rxjava2-buffer示例和源码解析/" title="Rxjava2 - buffer示例和源码解析">http://www.wblog.work/Rxjava2-buffer示例和源码解析/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -535,8 +536,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/Rxjava2 - from示例和源码解析/" rel="next" title="Rxjava2 - from示例和源码解析">
-                  <i class="fa fa-chevron-left"></i> Rxjava2 - from示例和源码解析
+                <a href="/Rxjava2-defer示例和详细解析/" rel="next" title="Rxjava2 - defer示例和详细解析">
+                  <i class="fa fa-chevron-left"></i> Rxjava2 - defer示例和详细解析
                 </a>
               
             </div>
@@ -545,8 +546,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/Rxjava2 - defer示例和详细解析/" rel="prev" title="Rxjava2 - defer示例和详细解析">
-                  Rxjava2 - defer示例和详细解析 <i class="fa fa-chevron-right"></i>
+                <a href="/Rxjava2-timer-interval-range-intervalRange示例和详细解析/" rel="prev" title="Rxjava2 - timer-interval-range-intervalRange示例和详细解析">
+                  Rxjava2 - timer-interval-range-intervalRange示例和详细解析 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>

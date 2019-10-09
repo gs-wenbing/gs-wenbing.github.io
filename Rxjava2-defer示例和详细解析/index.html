@@ -55,19 +55,19 @@
   };
 </script>
 
-  <meta name="description" content="defer示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/** * 创建被观察者 * @return ObservableSource */private ObservableSource&amp;lt;? extends I">
+  <meta name="description" content="defer示例和详细解析">
 <meta name="keywords" content="Rxjava">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rxjava2 - defer示例和详细解析">
-<meta property="og:url" content="http://www.wblog.work/Rxjava2 - defer示例和详细解析/index.html">
+<meta property="og:url" content="http://www.wblog.work/Rxjava2-defer示例和详细解析/index.html">
 <meta property="og:site_name" content="wenbing-blog">
-<meta property="og:description" content="defer示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/** * 创建被观察者 * @return ObservableSource */private ObservableSource&amp;lt;? extends I">
+<meta property="og:description" content="defer示例和详细解析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-09T03:03:04.846Z">
+<meta property="og:updated_time" content="2019-10-09T03:11:41.875Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rxjava2 - defer示例和详细解析">
-<meta name="twitter:description" content="defer示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/** * 创建被观察者 * @return ObservableSource */private ObservableSource&amp;lt;? extends I">
-  <link rel="canonical" href="http://www.wblog.work/Rxjava2 - defer示例和详细解析/">
+<meta name="twitter:description" content="defer示例和详细解析">
+  <link rel="canonical" href="http://www.wblog.work/Rxjava2-defer示例和详细解析/">
 
 
 <script id="page-configurations">
@@ -309,7 +309,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2 - defer示例和详细解析/">
+    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2-defer示例和详细解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="gs-wenbing">
@@ -380,7 +380,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/Rxjava2 - defer示例和详细解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2 - defer示例和详细解析/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/Rxjava2-defer示例和详细解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2-defer示例和详细解析/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -394,7 +394,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <a id="more"></a>
+        <p>defer示例和详细解析</p>
+<a id="more"></a>
+
 <h4 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h4><h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建被观察者</span></span><br><span class="line"><span class="comment"> * @return ObservableSource</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">private ObservableSource&lt;? extends <span class="type">Integer</span>&gt; getSource() &#123;</span><br><span class="line">    <span class="keyword">return</span> Observable.<span class="keyword">create</span>(<span class="built_in">new</span> ObservableOnSubscribe&lt;<span class="type">Integer</span>&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> subscribe(ObservableEmitter&lt;<span class="type">Integer</span>&gt; emitter) throws <span class="keyword">Exception</span> &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("发射-----&gt;" + Thread.currentThread().getName() + "--:" + <span class="number">1</span>);</span><br><span class="line">            emitter.onNext(<span class="number">1</span>);</span><br><span class="line">            emitter.onComplete();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建观察者</span></span><br><span class="line"><span class="comment"> * @return Observer</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">private Observer&lt;? super <span class="type">Integer</span>&gt; getObserver() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">new</span> Observer&lt;<span class="type">Integer</span>&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onSubscribe(Disposable d) &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("onSubscribe");</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onNext(<span class="type">Integer</span> <span class="type">integer</span>) &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("接收-----&gt;" + <span class="type">integer</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onError(Throwable e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onComplete() &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("onComplete");</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">public</span> <span class="type">void</span> testDefer() &#123;</span><br><span class="line">    Observable&lt;<span class="type">Integer</span>&gt; source = Observable</span><br><span class="line">            .defer(<span class="built_in">new</span> Callable&lt;ObservableSource&lt;? extends <span class="type">Integer</span>&gt;&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                <span class="built_in">public</span> ObservableSource&lt;? extends <span class="type">Integer</span>&gt; <span class="keyword">call</span>() throws <span class="keyword">Exception</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> getSource();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    source</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(getObserver());</span><br><span class="line"></span><br><span class="line">    source</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(getObserver());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onSubscribe   //先订阅</span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onSubscribe</span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 发射<span class="comment">-----&gt;RxCachedThreadScheduler-1--:1  //再发射数据</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 发射<span class="comment">-----&gt;RxCachedThreadScheduler-2--:1</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 接收<span class="comment">-----&gt;1</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onComplete</span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 接收<span class="comment">-----&gt;1</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onComplete</span><br></pre></td></tr></table></figure>
@@ -423,7 +425,7 @@
     <strong>本文作者： </strong>gs-wenbing</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wblog.work/Rxjava2 - defer示例和详细解析/" title="Rxjava2 - defer示例和详细解析">http://www.wblog.work/Rxjava2 - defer示例和详细解析/</a>
+    <a href="http://www.wblog.work/Rxjava2-defer示例和详细解析/" title="Rxjava2 - defer示例和详细解析">http://www.wblog.work/Rxjava2-defer示例和详细解析/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -448,8 +450,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/Rxjava2 - buffer示例和源码解析/" rel="next" title="Rxjava2 - buffer示例和源码解析">
-                  <i class="fa fa-chevron-left"></i> Rxjava2 - buffer示例和源码解析
+                <a href="/Rxjava2-from示例和源码解析/" rel="next" title="Rxjava2 - from示例和源码解析">
+                  <i class="fa fa-chevron-left"></i> Rxjava2 - from示例和源码解析
                 </a>
               
             </div>
@@ -458,8 +460,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/" rel="prev" title="Rxjava2 - timer-interval-range-intervalRange示例和详细解析">
-                  Rxjava2 - timer-interval-range-intervalRange示例和详细解析 <i class="fa fa-chevron-right"></i>
+                <a href="/Rxjava2-buffer示例和源码解析/" rel="prev" title="Rxjava2 - buffer示例和源码解析">
+                  Rxjava2 - buffer示例和源码解析 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>

@@ -55,19 +55,19 @@
   };
 </script>
 
-  <meta name="description" content="just()示例 12345678910111213141516171819Observable.just(&quot;文章1&quot;, &quot;文章2&quot;)          .subscribe(new Observer&amp;lt;String&amp;gt;() &amp;#123;                @Override                public void onSubscribe(Disposable">
+  <meta name="description" content="just示例和源码解析">
 <meta name="keywords" content="Rxjava">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rxjava2 - just示例和源码解析">
-<meta property="og:url" content="http://www.wblog.work/Rxjava2 - just示例和源码解析/index.html">
+<meta property="og:url" content="http://www.wblog.work/Rxjava2-just示例和源码解析/index.html">
 <meta property="og:site_name" content="wenbing-blog">
-<meta property="og:description" content="just()示例 12345678910111213141516171819Observable.just(&quot;文章1&quot;, &quot;文章2&quot;)          .subscribe(new Observer&amp;lt;String&amp;gt;() &amp;#123;                @Override                public void onSubscribe(Disposable">
+<meta property="og:description" content="just示例和源码解析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-09T03:01:57.218Z">
+<meta property="og:updated_time" content="2019-10-09T03:11:54.943Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rxjava2 - just示例和源码解析">
-<meta name="twitter:description" content="just()示例 12345678910111213141516171819Observable.just(&quot;文章1&quot;, &quot;文章2&quot;)          .subscribe(new Observer&amp;lt;String&amp;gt;() &amp;#123;                @Override                public void onSubscribe(Disposable">
-  <link rel="canonical" href="http://www.wblog.work/Rxjava2 - just示例和源码解析/">
+<meta name="twitter:description" content="just示例和源码解析">
+  <link rel="canonical" href="http://www.wblog.work/Rxjava2-just示例和源码解析/">
 
 
 <script id="page-configurations">
@@ -309,7 +309,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2 - just示例和源码解析/">
+    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2-just示例和源码解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="gs-wenbing">
@@ -380,7 +380,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/Rxjava2 - just示例和源码解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2 - just示例和源码解析/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/Rxjava2-just示例和源码解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2-just示例和源码解析/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -394,7 +394,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <a id="more"></a>
+        <p>just示例和源码解析</p>
+<a id="more"></a>
 
 <p>just()示例</p>
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="module-access"><span class="module"><span class="identifier">Observable</span>.</span></span>just(<span class="string">"文章1"</span>, <span class="string">"文章2"</span>)</span><br><span class="line">          .subscribe(<span class="keyword">new</span> Observer&lt;String&gt;<span class="literal">()</span> &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void on<span class="constructor">Subscribe(Disposable <span class="params">d</span>)</span> &#123;</span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(TAG, <span class="string">" onSubscribe : "</span> + d.is<span class="constructor">Disposed()</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                @Override</span><br><span class="line">                public void on<span class="constructor">Next(String <span class="params">value</span>)</span> &#123;</span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(TAG, <span class="string">" onNext : "</span> + value);</span><br><span class="line">                &#125;</span><br><span class="line">                @Override</span><br><span class="line">                public void on<span class="constructor">Error(Throwable <span class="params">e</span>)</span> &#123;</span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(TAG, <span class="string">" onError : "</span> + e.get<span class="constructor">Message()</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                @Override</span><br><span class="line">                public void on<span class="constructor">Complete()</span> &#123;</span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">Log</span>.</span></span>d(TAG, <span class="string">" onComplete"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
@@ -473,7 +474,7 @@
     <strong>本文作者： </strong>gs-wenbing</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wblog.work/Rxjava2 - just示例和源码解析/" title="Rxjava2 - just示例和源码解析">http://www.wblog.work/Rxjava2 - just示例和源码解析/</a>
+    <a href="http://www.wblog.work/Rxjava2-just示例和源码解析/" title="Rxjava2 - just示例和源码解析">http://www.wblog.work/Rxjava2-just示例和源码解析/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -498,7 +499,7 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/Rxjava2 - Observable示例和源码解析/" rel="next" title="Rxjava2 - Observable示例和源码解析">
+                <a href="/Rxjava2-Observable示例和源码解析/" rel="next" title="Rxjava2 - Observable示例和源码解析">
                   <i class="fa fa-chevron-left"></i> Rxjava2 - Observable示例和源码解析
                 </a>
               
@@ -508,7 +509,7 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/Rxjava2 - from示例和源码解析/" rel="prev" title="Rxjava2 - from示例和源码解析">
+                <a href="/Rxjava2-from示例和源码解析/" rel="prev" title="Rxjava2 - from示例和源码解析">
                   Rxjava2 - from示例和源码解析 <i class="fa fa-chevron-right"></i>
                 </a>
               

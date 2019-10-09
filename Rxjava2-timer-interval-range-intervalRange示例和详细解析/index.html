@@ -55,19 +55,19 @@
   };
 </script>
 
-  <meta name="description" content="timer示例11234567891011121314151617181920212223242526Observable.timer(5, TimeUnit.SECONDS)          .subscribe(myObserver());private Observer&amp;lt;? super Long&amp;gt; myObserver() &amp;#123;    return new Obser">
+  <meta name="description" content="Rxjava2 - timer/interval/range/intervalRange示例和详细解析">
 <meta name="keywords" content="Rxjava">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rxjava2 - timer-interval-range-intervalRange示例和详细解析">
-<meta property="og:url" content="http://www.wblog.work/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/index.html">
+<meta property="og:url" content="http://www.wblog.work/Rxjava2-timer-interval-range-intervalRange示例和详细解析/index.html">
 <meta property="og:site_name" content="wenbing-blog">
-<meta property="og:description" content="timer示例11234567891011121314151617181920212223242526Observable.timer(5, TimeUnit.SECONDS)          .subscribe(myObserver());private Observer&amp;lt;? super Long&amp;gt; myObserver() &amp;#123;    return new Obser">
+<meta property="og:description" content="Rxjava2 - timer/interval/range/intervalRange示例和详细解析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-09T03:05:00.651Z">
+<meta property="og:updated_time" content="2019-10-09T03:12:19.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rxjava2 - timer-interval-range-intervalRange示例和详细解析">
-<meta name="twitter:description" content="timer示例11234567891011121314151617181920212223242526Observable.timer(5, TimeUnit.SECONDS)          .subscribe(myObserver());private Observer&amp;lt;? super Long&amp;gt; myObserver() &amp;#123;    return new Obser">
-  <link rel="canonical" href="http://www.wblog.work/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/">
+<meta name="twitter:description" content="Rxjava2 - timer/interval/range/intervalRange示例和详细解析">
+  <link rel="canonical" href="http://www.wblog.work/Rxjava2-timer-interval-range-intervalRange示例和详细解析/">
 
 
 <script id="page-configurations">
@@ -309,7 +309,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/">
+    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2-timer-interval-range-intervalRange示例和详细解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="gs-wenbing">
@@ -380,7 +380,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/Rxjava2-timer-interval-range-intervalRange示例和详细解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2-timer-interval-range-intervalRange示例和详细解析/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -394,7 +394,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <a id="more"></a>
+        <p>Rxjava2 - timer/interval/range/intervalRange示例和详细解析</p>
+<a id="more"></a>
 <h4 id="timer"><a href="#timer" class="headerlink" title="timer"></a>timer</h4><h5 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h5><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Observable.timer(<span class="number">5</span>, TimeUnit.SECONDS)</span><br><span class="line">          .subscribe(myObserver());</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Observer&lt;? <span class="keyword">super</span> Long&gt; myObserver() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Observer&lt;Long&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"onSubscribe"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Long aLong)</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"接收-----&gt;"</span> + aLong);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"onComplete"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">08</span><span class="number">-26</span> <span class="number">15</span>:<span class="number">37</span>:<span class="number">06.813</span> <span class="number">12178</span><span class="number">-12178</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: onSubscribe</span><br><span class="line"><span class="number">08</span><span class="number">-26</span> <span class="number">15</span>:<span class="number">37</span>:<span class="number">11.817</span> <span class="number">12178</span><span class="number">-12208</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: 接收-----&gt;<span class="number">0</span></span><br><span class="line"><span class="number">08</span><span class="number">-26</span> <span class="number">15</span>:<span class="number">37</span>:<span class="number">11.817</span> <span class="number">12178</span><span class="number">-12208</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: onComplete</span><br></pre></td></tr></table></figure>
@@ -439,7 +440,7 @@
     <strong>本文作者： </strong>gs-wenbing</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wblog.work/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/" title="Rxjava2 - timer-interval-range-intervalRange示例和详细解析">http://www.wblog.work/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/</a>
+    <a href="http://www.wblog.work/Rxjava2-timer-interval-range-intervalRange示例和详细解析/" title="Rxjava2 - timer-interval-range-intervalRange示例和详细解析">http://www.wblog.work/Rxjava2-timer-interval-range-intervalRange示例和详细解析/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -464,8 +465,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/Rxjava2 - defer示例和详细解析/" rel="next" title="Rxjava2 - defer示例和详细解析">
-                  <i class="fa fa-chevron-left"></i> Rxjava2 - defer示例和详细解析
+                <a href="/Rxjava2-buffer示例和源码解析/" rel="next" title="Rxjava2 - buffer示例和源码解析">
+                  <i class="fa fa-chevron-left"></i> Rxjava2 - buffer示例和源码解析
                 </a>
               
             </div>
