@@ -55,21 +55,19 @@
   };
 </script>
 
-  <meta name="description" content="最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。">
-<meta name="keywords" content="HTML,js,EasyUI">
+  <meta name="description" content="defer示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/** * 创建被观察者 * @return ObservableSource */private ObservableSource&amp;lt;? extends I">
+<meta name="keywords" content="Rxjava">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTML select的onchange()事件不触发">
-<meta property="og:url" content="http://www.wblog.work/HTML-selecton-change/index.html">
+<meta property="og:title" content="Rxjava2 - defer示例和详细解析">
+<meta property="og:url" content="http://www.wblog.work/Rxjava2 - defer示例和详细解析/index.html">
 <meta property="og:site_name" content="wenbing-blog">
-<meta property="og:description" content="最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。">
+<meta property="og:description" content="defer示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/** * 创建被观察者 * @return ObservableSource */private ObservableSource&amp;lt;? extends I">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.wblog.work/HTML-selecton-change/combobox-onchange.png">
-<meta property="og:updated_time" content="2019-09-27T06:50:31.770Z">
+<meta property="og:updated_time" content="2019-10-09T03:03:04.846Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTML select的onchange()事件不触发">
-<meta name="twitter:description" content="最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。">
-<meta name="twitter:image" content="http://www.wblog.work/HTML-selecton-change/combobox-onchange.png">
-  <link rel="canonical" href="http://www.wblog.work/HTML-selecton-change/">
+<meta name="twitter:title" content="Rxjava2 - defer示例和详细解析">
+<meta name="twitter:description" content="defer示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/** * 创建被观察者 * @return ObservableSource */private ObservableSource&amp;lt;? extends I">
+  <link rel="canonical" href="http://www.wblog.work/Rxjava2 - defer示例和详细解析/">
 
 
 <script id="page-configurations">
@@ -83,7 +81,7 @@
   };
 </script>
 
-  <title>HTML select的onchange()事件不触发 | wenbing-blog</title>
+  <title>Rxjava2 - defer示例和详细解析 | wenbing-blog</title>
   
 
 
@@ -311,7 +309,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/HTML-selecton-change/">
+    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2 - defer示例和详细解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="gs-wenbing">
@@ -323,7 +321,7 @@
       <meta itemprop="name" content="wenbing-blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">HTML select的onchange()事件不触发
+        <h2 class="post-title" itemprop="name headline">Rxjava2 - defer示例和详细解析
 
           
         </h2>
@@ -339,7 +337,7 @@
                 
               
 
-              <time title="创建时间：2019-09-27 11:21:27" itemprop="dateCreated datePublished" datetime="2019-09-27T11:21:27+08:00">2019-09-27</time>
+              <time title="创建时间：2019-10-08 13:21:27" itemprop="dateCreated datePublished" datetime="2019-10-08T13:21:27+08:00">2019-10-08</time>
             </span>
           
             <span class="post-meta-item">
@@ -355,7 +353,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/RxJava2/" itemprop="url" rel="index"><span itemprop="name">RxJava2</span></a></span>
 
                 
                 
@@ -382,7 +380,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/HTML-selecton-change/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/HTML-selecton-change/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/Rxjava2 - defer示例和详细解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2 - defer示例和详细解析/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -396,21 +394,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近在帮后端修改bug，本来对js 只是熟悉，没有达到深入的层次，今天遇到了一个select的onchange()事件不触发的问题，记录一下，以备后续需要。</p>
-<a id="more"></a>
-<p>下面是代码：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//省去无关代码</span><br><span class="line"></span><br><span class="line">&lt;<span class="keyword">select</span> onchange="fun()" id="CategoryName"  <span class="keyword">class</span>="easyui-combobox"  editable="false"&gt;</span><br><span class="line">	&lt;<span class="keyword">option</span> <span class="keyword">value</span>=""&gt;全部&lt;/<span class="keyword">option</span>&gt;</span><br><span class="line">	@<span class="keyword">foreach</span> (var item <span class="keyword">in</span> noticeCategoryGroup)</span><br><span class="line">	 &#123;</span><br><span class="line">	 &lt;<span class="keyword">option</span> <span class="keyword">value</span>="@item.Key"&gt;@item.<span class="keyword">Value</span>&lt;/<span class="keyword">option</span>&gt;</span><br><span class="line">	 &#125;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br><span class="line"></span><br><span class="line">//省去无关代码</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	<span class="keyword">function</span> fun()&#123;</span><br><span class="line">		alert(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+        <a id="more"></a>
+<h4 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h4><h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建被观察者</span></span><br><span class="line"><span class="comment"> * @return ObservableSource</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">private ObservableSource&lt;? extends <span class="type">Integer</span>&gt; getSource() &#123;</span><br><span class="line">    <span class="keyword">return</span> Observable.<span class="keyword">create</span>(<span class="built_in">new</span> ObservableOnSubscribe&lt;<span class="type">Integer</span>&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> subscribe(ObservableEmitter&lt;<span class="type">Integer</span>&gt; emitter) throws <span class="keyword">Exception</span> &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("发射-----&gt;" + Thread.currentThread().getName() + "--:" + <span class="number">1</span>);</span><br><span class="line">            emitter.onNext(<span class="number">1</span>);</span><br><span class="line">            emitter.onComplete();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建观察者</span></span><br><span class="line"><span class="comment"> * @return Observer</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">private Observer&lt;? super <span class="type">Integer</span>&gt; getObserver() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">new</span> Observer&lt;<span class="type">Integer</span>&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onSubscribe(Disposable d) &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("onSubscribe");</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onNext(<span class="type">Integer</span> <span class="type">integer</span>) &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("接收-----&gt;" + <span class="type">integer</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onError(Throwable e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        <span class="built_in">public</span> <span class="type">void</span> onComplete() &#123;</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("onComplete");</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">public</span> <span class="type">void</span> testDefer() &#123;</span><br><span class="line">    Observable&lt;<span class="type">Integer</span>&gt; source = Observable</span><br><span class="line">            .defer(<span class="built_in">new</span> Callable&lt;ObservableSource&lt;? extends <span class="type">Integer</span>&gt;&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                <span class="built_in">public</span> ObservableSource&lt;? extends <span class="type">Integer</span>&gt; <span class="keyword">call</span>() throws <span class="keyword">Exception</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> getSource();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    source</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(getObserver());</span><br><span class="line"></span><br><span class="line">    source</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(getObserver());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>上面代码中死活不能触发onchange，各种百度，都是这样写的，又试了下面这种方式：</p>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#CategoryName'</span>).change(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	alert(<span class="number">1</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onSubscribe   //先订阅</span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onSubscribe</span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 发射<span class="comment">-----&gt;RxCachedThreadScheduler-1--:1  //再发射数据</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 发射<span class="comment">-----&gt;RxCachedThreadScheduler-2--:1</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 接收<span class="comment">-----&gt;1</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onComplete</span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: 接收<span class="comment">-----&gt;1</span></span><br><span class="line"><span class="keyword">System</span>.<span class="keyword">out</span>: onComplete</span><br></pre></td></tr></table></figure>
 
-<p>还是不行，奇了怪了。在仔细一看会不会是 easyui-combobox在捣鬼。</p>
-<p>于是又搜easyui-combobox的onchange()的事件，果然是！</p>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#CategoryName'</span>).combobox(&#123;</span><br><span class="line">        onChange:<span class="function"><span class="keyword">function</span>(<span class="params">n,o</span>)</span>&#123;</span><br><span class="line">           alert(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>根据日志可以看出，直到有观察者订阅时才创建 Observable ，并且为每个观察者创建一个新的 Observable 。</p>
+<p>Defer操作符会一直等待直到有观察者订阅它，然后它使用Observable工厂方法生成一个Observable。它对每个观察者都这样做，因此尽管每个订阅者都以为自己订阅的是同一个Observable，事实上每个订阅者获取的是它们自己的单独的数据序列。</p>
+<p>我们点进去看下 defer ， 其实也返回了一个 Observable 子类的对象 ObservableDefer</p>
+<p>那么接下来我们之间看 subscribeActual 方法的实现：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public void subscribe<span class="constructor">Actual(Observer&lt;? <span class="params">super</span> T&gt; <span class="params">observer</span>)</span> &#123;</span><br><span class="line">    ObservableSource&lt;? extends T&gt; pub;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="comment">//返回我们通过 getSourse() 创建的 被观察者，</span></span><br><span class="line">        pub = <span class="module-access"><span class="module"><span class="identifier">ObjectHelper</span>.</span></span>require<span class="constructor">NonNull(<span class="params">supplier</span>.<span class="params">call</span>()</span>, <span class="string">"null ObservableSource supplied"</span>);</span><br><span class="line">    &#125; catch (Throwable t) &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Exceptions</span>.</span></span>throw<span class="constructor">IfFatal(<span class="params">t</span>)</span>;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">EmptyDisposable</span>.</span></span>error(t, observer);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pub.subscribe(observer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>n代表选中的新值，o代表上一个值。</p>
-<p>下面是easyui-combobox的所有事件：</p>
-<p><img src="/HTML-selecton-change/combobox-onchange.png" alt><br>参考EasyUI官网：<br><a href="http://www.jeasyui.com/documentation/index.php#" target="_blank" rel="noopener">http://www.jeasyui.com/documentation/index.php#</a></p>
+<p>我们每次执行 source.subscribe(getObserver()) ;就会调用一次 subscribeActual方法，也就会通过 upplier.call() 返回我们新创建的被观察者，也就验证了 “直到有观察者订阅时才创建 Observable ，并且为每个观察者创建一个新的 Observable”。</p>
+<p>我们再看下 pub.subscribe(observer); 这一行代码，pub 就是我们 getSourse() 时通过 create 创建的  Observable，这里的 pub.subscribe() 其实是执行了 ObservableCreate 的 subscribeActual 方法，接下来的流程就和 <a href="https://juejin.im/post/5d5faa8af265da03f12e632e" target="_blank" rel="noopener">create 的订阅过程 </a> 一样了。</p>
 
     </div>
 
@@ -427,7 +423,7 @@
     <strong>本文作者： </strong>gs-wenbing</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wblog.work/HTML-selecton-change/" title="HTML select的onchange()事件不触发">http://www.wblog.work/HTML-selecton-change/</a>
+    <a href="http://www.wblog.work/Rxjava2 - defer示例和详细解析/" title="Rxjava2 - defer示例和详细解析">http://www.wblog.work/Rxjava2 - defer示例和详细解析/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -442,11 +438,7 @@
           
           <div class="post-tags">
             
-              <a href="/tags/HTML/" rel="tag"><i class="fa fa-tag"></i> HTML</a>
-            
-              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
-            
-              <a href="/tags/EasyUI/" rel="tag"><i class="fa fa-tag"></i> EasyUI</a>
+              <a href="/tags/Rxjava/" rel="tag"><i class="fa fa-tag"></i> Rxjava</a>
             
           </div>
         
@@ -456,8 +448,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/rxjava-schedul/" rel="next" title="Rxjava2 - RxScheduler示例和详细解析">
-                  <i class="fa fa-chevron-left"></i> Rxjava2 - RxScheduler示例和详细解析
+                <a href="/Rxjava2 - buffer示例和源码解析/" rel="next" title="Rxjava2 - buffer示例和源码解析">
+                  <i class="fa fa-chevron-left"></i> Rxjava2 - buffer示例和源码解析
                 </a>
               
             </div>
@@ -466,8 +458,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/easyui-repeatclick/" rel="prev" title="EasyUI的对话框（dialog）按钮重复点击的问题">
-                  EasyUI的对话框（dialog）按钮重复点击的问题 <i class="fa fa-chevron-right"></i>
+                <a href="/Rxjava2 - timer-interval-range-intervalRange示例和详细解析/" rel="prev" title="Rxjava2 - timer-interval-range-intervalRange示例和详细解析">
+                  Rxjava2 - timer-interval-range-intervalRange示例和详细解析 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -520,6 +512,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#defer"><span class="nav-number">1.</span> <span class="nav-text">defer</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例"><span class="nav-number">1.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析"><span class="nav-number">1.2.</span> <span class="nav-text">分析</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 

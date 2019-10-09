@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Buffer收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。 Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。 注意：如果原来的Observable发射了一个onError通知，Buffer会立即传递这个通知，而不是首先发射缓存的数据">
+<meta name="keywords" content="Rxjava">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2 - buffer示例和源码解析">
+<meta property="og:url" content="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/index.html">
+<meta property="og:site_name" content="wenbing-blog">
+<meta property="og:description" content="Buffer收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。 Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。 注意：如果原来的Observable发射了一个onError通知，Buffer会立即传递这个通知，而不是首先发射缓存的数据">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/gs-wenbing/RxJavaDemo/master/app/images/buffer.png">
+<meta property="og:updated_time" content="2019-10-09T03:04:35.678Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2 - buffer示例和源码解析">
+<meta name="twitter:description" content="Buffer收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。 Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。 注意：如果原来的Observable发射了一个onError通知，Buffer会立即传递这个通知，而不是首先发射缓存的数据">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/gs-wenbing/RxJavaDemo/master/app/images/buffer.png">
+  <link rel="canonical" href="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Rxjava2 - buffer示例和源码解析 | wenbing-blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wenbing-blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">记录生活记录你</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">6</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">5</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">11</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gs-wenbing">
+      <meta itemprop="description" content="如果你不是经常遇到挫折，这表明你做的事情没有很大的创新性">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wenbing-blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">Rxjava2 - buffer示例和源码解析
+
+          
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-08 13:21:27" itemprop="dateCreated datePublished" datetime="2019-10-08T13:21:27+08:00">2019-10-08</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/RxJava2/" itemprop="url" rel="index"><span itemprop="name">RxJava2</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/Rxjava2 - buffer示例和源码解析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/Rxjava2 - buffer示例和源码解析/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+    <div style="width: 100%;height: 1px; border-top: dashed #ACC0D8 1px;margin-bottom:20px;margin-top:-40px;"></div>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <a id="more"></a>
+
+<h4 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h4><p>收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。</p>
+<p>Buffer 操作符将一个 Observable 变换为另一个，原来的 Observable 正常发射数据，变换产生的 Observable 发射这些数据的缓存集合。</p>
+<p>注意：如果原来的Observable发射了一个onError通知，Buffer会立即传递这个通知，而不是首先发射缓存的数据，即使在这之前缓存中包含了原始Observable发射的数据。</p>
+<h5 id="buffer-count-skip"><a href="#buffer-count-skip" class="headerlink" title="buffer(count, skip)"></a>buffer(count, skip)</h5><h6 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h6><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">List&lt;<span class="type">Integer</span>&gt; integers = <span class="built_in">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">    integers.<span class="keyword">add</span>(i);</span><br><span class="line">&#125;</span><br><span class="line">Observable&lt;<span class="type">Integer</span>&gt; observable = Observable.fromIterable(integers);</span><br><span class="line"></span><br><span class="line">observable</span><br><span class="line">        .buffer(<span class="number">5</span>，<span class="number">4</span>)</span><br><span class="line">        .subscribe(<span class="built_in">new</span> Consumer&lt;List&lt;<span class="type">Integer</span>&gt;&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            <span class="built_in">public</span> <span class="type">void</span> accept(List&lt;<span class="type">Integer</span>&gt; integers) throws <span class="keyword">Exception</span> &#123;</span><br><span class="line">                <span class="keyword">System</span>.<span class="keyword">out</span>.println("接收-----&gt;" + integers);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]</span><br><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>]</span><br><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>]</span><br></pre></td></tr></table></figure>
+
+<p>每个缓存里面包含 count 个元素，我们这里把数据列表 假设为List，索引为index。那么下一个缓存是以 index % skip == 0 开始，取 count 个元素。 我们从上面的打印日志中就可以看出，每个缓存的 开始元素索引和skip取余都为0。我们也可以通俗的理解为 先取 count 个元素，然后每隔 skip 个再取 count 个。</p>
+<p>我们把skip为6看下输出结果：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0 % 6==0</span></span><br><span class="line">ystem.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="comment">// 6 % 6==0</span></span><br><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line"><span class="comment">// 12 % 6==0</span></span><br><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>]</span><br><span class="line"><span class="comment">// 18 % 6==0</span></span><br><span class="line">System.<span class="keyword">out</span>: 接收-----&gt;[<span class="number">18</span>, <span class="number">19</span>]</span><br></pre></td></tr></table></figure>
+
+<h6 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h6><p>我们看下源码：</p>
+<p>先从 buffer(count) 点进去，他调用的是 buffer(count, skip)， 只是参数skip 也是count，  而 buffer(count, skip) 调用的是 buffer(count, skip，bufferSupplier)，那么我们看下 buffer(count, skip，bufferSupplier)：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public final &lt;U extends Collection&lt;? super T&gt;&gt; Observable&lt;U&gt; buffer(<span class="built_in">int</span> count, <span class="built_in">int</span> skip, Callable&lt;U&gt; bufferSupplier) &#123;</span><br><span class="line">    <span class="comment">// count 必须大于0</span></span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">ObjectHelper</span>.</span></span>verify<span class="constructor">Positive(<span class="params">count</span>, <span class="string">"count"</span>)</span>;</span><br><span class="line">    <span class="comment">// skip 必须大于0</span></span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">ObjectHelper</span>.</span></span>verify<span class="constructor">Positive(<span class="params">skip</span>, <span class="string">"skip"</span>)</span>;</span><br><span class="line">    <span class="comment">//bufferSupplier 不能为null</span></span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">ObjectHelper</span>.</span></span>require<span class="constructor">NonNull(<span class="params">bufferSupplier</span>, <span class="string">"bufferSupplier is null"</span>)</span>;</span><br><span class="line">    <span class="comment">//装配 ObservableBuffer 对象返回</span></span><br><span class="line">    return <span class="module-access"><span class="module"><span class="identifier">RxJavaPlugins</span>.</span></span>on<span class="constructor">Assembly(<span class="params">new</span> ObservableBuffer&lt;T, U&gt;(<span class="params">this</span>, <span class="params">count</span>, <span class="params">skip</span>, <span class="params">bufferSupplier</span>)</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们知道，订阅的时候调用的 subscribe 方法，而 subscribe 调用是Observable的子类的 subscribeActual 方法，而这里Observable的子类就是 ObservableBuffer。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> subscribeActual(Observer&lt;? <span class="keyword">super</span> U&gt; t) &#123;</span><br><span class="line">    <span class="comment">//第一种情况： 当skip 和 count相等，或者 buffer(count)时会走这里</span></span><br><span class="line">    <span class="keyword">if</span> (skip == <span class="keyword">count</span>) &#123;</span><br><span class="line">        BufferExactObserver&lt;T, U&gt; bes = <span class="keyword">new</span> BufferExactObserver&lt;T, U&gt;(t, <span class="keyword">count</span>, bufferSupplier);</span><br><span class="line">        <span class="keyword">if</span> (bes.createBuffer()) &#123;</span><br><span class="line">            <span class="keyword">source</span>.subscribe(bes);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">//第二种情况： 当skip 和 count不相等时</span></span><br><span class="line">        <span class="keyword">source</span>.subscribe(<span class="keyword">new</span> BufferSkipObserver&lt;T, U&gt;(t, <span class="keyword">count</span>, skip, bufferSupplier));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们分两种情况看：</p>
+<p>首先第一种：</p>
+<p>创建了一个 BufferExactObserver 对象，然后执行 bes.createBuffer() ：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">boolean create<span class="constructor">Buffer()</span> &#123;</span><br><span class="line">    <span class="comment">//这里的 U 的类型是 List&lt;Integer&gt;</span></span><br><span class="line">    U b;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//创建一个空的 ArrayList，bufferSupplier是ArrayListSupplier的对象，</span></span><br><span class="line">		<span class="comment">//他的call执行了 return new ArrayList&lt;Object&gt;();</span></span><br><span class="line">        b = <span class="module-access"><span class="module"><span class="identifier">ObjectHelper</span>.</span></span>require<span class="constructor">NonNull(<span class="params">bufferSupplier</span>.<span class="params">call</span>()</span>, <span class="string">"Empty buffer supplied"</span>);</span><br><span class="line">    &#125; catch (Throwable t) &#123;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">Exceptions</span>.</span></span>throw<span class="constructor">IfFatal(<span class="params">t</span>)</span>;</span><br><span class="line">        buffer = null;</span><br><span class="line">        <span class="keyword">if</span> (upstream<span class="operator"> == </span>null) &#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">EmptyDisposable</span>.</span></span>error(t, downstream);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            upstream.dispose<span class="literal">()</span>;</span><br><span class="line">            downstream.on<span class="constructor">Error(<span class="params">t</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        return <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 把空的ArrayList赋给 buffer，buffer是一个List&lt;Integer&gt;类型的变量</span></span><br><span class="line">    buffer = b;</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看到这里没有异常的话都返回true，所以一般都会执行 source.subscribe(bes)，这里的source其实是我们示例里Observable.fromIterable(integers) 返回的 ObservableFromIterable对象，<a href="https://juejin.im/post/5d63492351882554a13f8e5e" target="_blank" rel="noopener">fromIterable</a> 我们已经分析过。</p>
+<p>我们知道 fromIterable 是遍历 Iterable，而每遍历一项数据都会执行 BufferExactObserver 的 onNext，所以我们直接看下onNext的代码：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * fromIterable 遍历 Iterable，执行onNext</span></span><br><span class="line"><span class="comment"> * @param t 每遍历一项数据 发射的Item</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> onNext(T t) &#123;</span><br><span class="line">    <span class="comment">//buffer 上面创建的空的 ArrayList</span></span><br><span class="line">    U b = buffer;</span><br><span class="line">    <span class="keyword">if</span> (b != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// t 是fromIterable中返回的每一条item数据</span></span><br><span class="line">        b.add(t);</span><br><span class="line">        <span class="comment">// size 记录存入缓存区的元素个数，当元素个数&gt;=我们传进去的大小时，就发射一个count大小的缓冲区</span></span><br><span class="line">        <span class="comment">//发射完后，元素个数赋值为0，重新创建一个新的缓存区覆盖原来的缓存区</span></span><br><span class="line">        <span class="keyword">if</span> (++<span class="keyword">size</span> &gt;= <span class="keyword">count</span>) &#123;</span><br><span class="line">            <span class="comment">//发射一个count大小的缓冲区</span></span><br><span class="line">            downstream.onNext(b);</span><br><span class="line">            <span class="keyword">size</span> = <span class="number">0</span>;</span><br><span class="line">            createBuffer();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看到onNext 发射的都是count大小的缓冲，但是假如我们传的数据不是count倍数时，比如24条数据，缓存大小为5，其中20条分四个缓存发射了，那剩下的4就不会发射了吗？</p>
+<p>我们从onNext中看到，不管有没有count个元素，都会放到缓存 b 中，而剩下4条会在onComplete()中发射</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 1、缓存中还有元素，发射剩下的元素，执行onComplete</span></span><br><span class="line"><span class="comment"> * 2、缓存中没有元素，直接执行onComplete</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    U b = buffer;</span><br><span class="line">    <span class="keyword">if</span> (b != <span class="literal">null</span>) &#123;</span><br><span class="line">        buffer = <span class="literal">null</span>;</span><br><span class="line">        <span class="comment">// 这时的缓存区的元素就是剩下的4条元素（假如数据总数不是count的倍数）</span></span><br><span class="line">        <span class="keyword">if</span> (!b.isEmpty()) &#123;</span><br><span class="line">            downstream.onNext(b);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//发送完成后执行 onComplete</span></span><br><span class="line">        downstream.onComplete();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面就是buffer(count)的整个流程。</p>
+<p>第二种情况 （buffer(count, skip)）：</p>
+<p>从 subscribeActual 方法中我们看到第二种情况直接执行了下面代码：</p>
+<p><code>source.subscribe(new BufferSkipObserver&lt;T, U&gt;(t, count, skip, bufferSupplier));</code></p>
+<p>同样 subscribe 也是走了 <a href="https://juejin.im/post/5d63492351882554a13f8e5e" target="_blank" rel="noopener">fromIterable</a> 的流程，和上面的一样。</p>
+<p>我们直接看 BufferSkipObserver 的 onNext方法：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * fromIterable 遍历 Iterable，执行onNext</span></span><br><span class="line"><span class="comment"> * @param t 每遍历一项数据 发射的Item</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public void on<span class="constructor">Next(T <span class="params">t</span>)</span> &#123;</span><br><span class="line">    <span class="comment">// index是遍历 Iterable的索引，判断index+1后和skip取余是否等于0</span></span><br><span class="line">    <span class="comment">//假如取余等于0，重新创建一个缓存</span></span><br><span class="line">    <span class="keyword">if</span> (index++ % skip<span class="operator"> == </span><span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//U 是 List&lt;Integer&gt;类型的</span></span><br><span class="line">        U b;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//创建一个空的 ArrayList</span></span><br><span class="line">            b = <span class="module-access"><span class="module"><span class="identifier">ObjectHelper</span>.</span></span>require<span class="constructor">NonNull(<span class="params">bufferSupplier</span>.<span class="params">call</span>()</span>, <span class="string">"The bufferSupplier returned a null collection. Null values are generally not allowed in 2.x operators and sources."</span>);</span><br><span class="line">        &#125; catch (Throwable e) &#123;</span><br><span class="line">            buffers.clear<span class="literal">()</span>;</span><br><span class="line">            upstream.dispose<span class="literal">()</span>;</span><br><span class="line">            downstream.on<span class="constructor">Error(<span class="params">e</span>)</span>;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//buffers 是ArrayDeque类型的对象，把空的ArrayList存入到 buffers中，当做一个缓存区</span></span><br><span class="line">        <span class="comment">//当count &gt; slip时，buffers中可能同时会有多个缓存区，这个时候缓存会有重叠的元素</span></span><br><span class="line">        <span class="comment">//当count &lt; slip时，buffers在某些情况下没有缓存区，这个时候会有间隙，也就是说部分数据会丢失</span></span><br><span class="line">        buffers.offer(b);</span><br><span class="line">    &#125;</span><br><span class="line">    Iterator&lt;U&gt; it = buffers.iterator<span class="literal">()</span>;</span><br><span class="line">    <span class="comment">//遍历buffers</span></span><br><span class="line">    <span class="keyword">while</span> (it.has<span class="constructor">Next()</span>) &#123;</span><br><span class="line">        <span class="comment">//获取 buffers 中每一个缓存ArrayList，把当前发射的Item存到缓存区</span></span><br><span class="line">        U b = it.next<span class="literal">()</span>;</span><br><span class="line">        b.add(t);</span><br><span class="line">        <span class="comment">//判断当前缓存区是否已满</span></span><br><span class="line">        <span class="keyword">if</span> (count &lt;= b.size<span class="literal">()</span>) &#123;</span><br><span class="line">            <span class="comment">//如果已满，则发射当前缓存区数据，删除当前缓存区</span></span><br><span class="line">            it.remove<span class="literal">()</span>;</span><br><span class="line">            downstream.on<span class="constructor">Next(<span class="params">b</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样的当最后数据不足一个缓存的大小时，会执行onComplete方法：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void on<span class="constructor">Complete()</span> &#123;</span><br><span class="line">    <span class="comment">//判断buffers是否存在缓存</span></span><br><span class="line">    <span class="keyword">while</span> (!buffers.is<span class="constructor">Empty()</span>) &#123;</span><br><span class="line">        <span class="comment">//假如有 直接发射缓存区中的所有元素</span></span><br><span class="line">        downstream.on<span class="constructor">Next(<span class="params">buffers</span>.<span class="params">poll</span>()</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//执行onComplete 回调</span></span><br><span class="line">    downstream.on<span class="constructor">Complete()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="buffer-timespan-unit"><a href="#buffer-timespan-unit" class="headerlink" title="buffer(timespan,  unit)"></a>buffer(timespan,  unit)</h5><h6 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h6><p>示例1</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Observable</span></span><br><span class="line">        <span class="comment">//表示发射10条整数序列，每间隔 100ms发射一条</span></span><br><span class="line">        <span class="selector-class">.interval</span>(<span class="number">100</span>, TimeUnit.MILLISECONDS)<span class="selector-class">.take</span>(<span class="number">10</span>)</span><br><span class="line">        <span class="selector-class">.buffer</span>(<span class="number">300</span>, TimeUnit.MILLISECONDS)</span><br><span class="line">        <span class="selector-class">.subscribe</span>(new Observer&lt;List&lt;Long&gt;&gt;() &#123;</span><br><span class="line">            <span class="variable">@Override</span></span><br><span class="line">            public void onSubscribe(Disposable d) &#123;</span><br><span class="line">                <span class="selector-tag">System</span><span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"onSubscribe"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @<span class="selector-tag">Override</span></span><br><span class="line">            <span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">onNext</span>(List&lt;Long&gt; longs) &#123;</span><br><span class="line">                <span class="selector-tag">System</span><span class="selector-class">.out</span><span class="selector-class">.println</span>(longs);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @<span class="selector-tag">Override</span></span><br><span class="line">            <span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">onError</span>(Throwable e) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">@Override</span></span><br><span class="line">            public void onComplete() &#123;</span><br><span class="line">                <span class="selector-tag">System</span><span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"onComplete"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">08</span><span class="number">-29</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">32.359</span> <span class="number">8656</span><span class="number">-8656</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: onSubscribe</span><br><span class="line"><span class="number">08</span><span class="number">-29</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">32.661</span> <span class="number">8656</span><span class="number">-8729</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="number">08</span><span class="number">-29</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">32.960</span> <span class="number">8656</span><span class="number">-8729</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="number">08</span><span class="number">-29</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">33.261</span> <span class="number">8656</span><span class="number">-8729</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line"><span class="comment">//中间隔了200ms</span></span><br><span class="line"><span class="number">08</span><span class="number">-29</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">33.361</span> <span class="number">8656</span><span class="number">-8730</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: [<span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="number">08</span><span class="number">-29</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">33.361</span> <span class="number">8656</span><span class="number">-8730</span>/com.zwb.rxjavademo I/System.<span class="keyword">out</span>: onComplete</span><br></pre></td></tr></table></figure>
+
+<p><strong>打印日志的第四行和第五行才隔了200ms，而不是我们设置的300ms，这个我们下面会分析</strong></p>
+<h6 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h6><p>我们看下源码：<br>从 buffer 点击去，最后执行的是</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public final &lt;U extends Collection&lt;? super T&gt;&gt; Observable&lt;U&gt; buffer(</span><br><span class="line">        long timespan, TimeUnit <span class="built_in">unit</span>,</span><br><span class="line">        Scheduler scheduler, <span class="built_in">int</span> count,</span><br><span class="line">        Callable&lt;U&gt; bufferSupplier,</span><br><span class="line">        boolean restartTimerOnMaxSize) &#123;</span><br><span class="line">    <span class="comment">//判断数据的合法性</span></span><br><span class="line">    <span class="comment">//。。。。。。</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//装配 ObservableBufferTimed 对象返回</span></span><br><span class="line">    return <span class="module-access"><span class="module"><span class="identifier">RxJavaPlugins</span>.</span></span>on<span class="constructor">Assembly(<span class="params">new</span> ObservableBufferTimed&lt;T, U&gt;(<span class="params">this</span>, <span class="params">timespan</span>, <span class="params">timespan</span>, <span class="params">unit</span>, <span class="params">scheduler</span>, <span class="params">bufferSupplier</span>, <span class="params">count</span>, <span class="params">restartTimerOnMaxSize</span>)</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们知道真正订阅是在ObservableBufferTimed类的subscribeActual方法中，我们看下：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">protected void subscribeActual(Observer&lt;? <span class="keyword">super</span> U&gt; t) &#123;</span><br><span class="line">    <span class="comment">//第一种情况，buffer(timespan,  unit) 会走这里，也就是示例1</span></span><br><span class="line">    <span class="keyword">if</span> (timespan == timeskip &amp;&amp; maxSize == Integer.MAX_VALUE) &#123;</span><br><span class="line">	<span class="comment">//我们暂且把这行称为 【代码1】</span></span><br><span class="line">        source.subscribe(<span class="keyword">new</span> <span class="type">BufferExactUnboundedObserver</span>&lt;T, U&gt;(</span><br><span class="line">                <span class="keyword">new</span> <span class="type">SerializedObserver</span>&lt;U&gt;(t),</span><br><span class="line">                bufferSupplier, timespan, unit, scheduler));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//第二种情况</span></span><br><span class="line">    Scheduler.Worker w = scheduler.createWorker();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (timespan == timeskip) &#123;</span><br><span class="line">        source.subscribe(<span class="keyword">new</span> <span class="type">BufferExactBoundedObserver</span>&lt;T, U&gt;(</span><br><span class="line">                <span class="keyword">new</span> <span class="type">SerializedObserver</span>&lt;U&gt;(t),</span><br><span class="line">                bufferSupplier,</span><br><span class="line">                timespan, unit, maxSize, restartTimerOnMaxSize, w</span><br><span class="line">        ));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//第三种情况</span></span><br><span class="line">    source.subscribe(<span class="keyword">new</span> <span class="type">BufferSkipBoundedObserver</span>&lt;T, U&gt;(</span><br><span class="line">            <span class="keyword">new</span> <span class="type">SerializedObserver</span>&lt;U&gt;(t),</span><br><span class="line">            bufferSupplier, timespan, timeskip, unit, w));</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们这里只分析第一种情况：</p>
+<p>【代码1】就一行代码，但是这行代码其实很复杂的。</p>
+<p>source(被观察者) 是执行 interval 时创建的 ObservableInterval 对象 ，而执行 subscribe 时会执行 ObservableInterval 的 subscribeActual，而 ObservableInterval 的 subscribeActual 默认会在computation线程每隔 100ms（示例1中设置的） 发送一条整数序列，也就是执行一次 onNext （注意：这里的onNext不会走 我们的示例的中onNext）。</p>
+<p>下面是 ObservableInterval 的部分代码：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public void subscribe<span class="constructor">Actual(Observer&lt;? <span class="params">super</span> Long&gt; <span class="params">observer</span>)</span> &#123;</span><br><span class="line">    IntervalObserver is = <span class="keyword">new</span> <span class="constructor">IntervalObserver(<span class="params">observer</span>)</span>;</span><br><span class="line">    <span class="comment">//这行先标记下 标记1</span></span><br><span class="line">    observer.on<span class="constructor">Subscribe(<span class="params">is</span>)</span>;</span><br><span class="line"></span><br><span class="line">    Scheduler sch = scheduler;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (sch instanceof TrampolineScheduler) &#123;</span><br><span class="line">        Worker worker = sch.create<span class="constructor">Worker()</span>;</span><br><span class="line">        is.set<span class="constructor">Resource(<span class="params">worker</span>)</span>;</span><br><span class="line">        worker.schedule<span class="constructor">Periodically(<span class="params">is</span>, <span class="params">initialDelay</span>, <span class="params">period</span>, <span class="params">unit</span>)</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Disposable d = sch.schedule<span class="constructor">PeriodicallyDirect(<span class="params">is</span>, <span class="params">initialDelay</span>, <span class="params">period</span>, <span class="params">unit</span>)</span>;</span><br><span class="line">        is.set<span class="constructor">Resource(<span class="params">d</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void run<span class="literal">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (get<span class="literal">()</span> != DisposableHelper.DISPOSED) &#123;</span><br><span class="line">	<span class="comment">//标记2</span></span><br><span class="line">        downstream.on<span class="constructor">Next(<span class="params">count</span><span class="operator">++</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>interval参考 <a href="https://juejin.im/post/5d63ab8af265da03b46bfb4e" target="_blank" rel="noopener">interval 示例和详细解析</a></p>
+<p>我们从这里没看到什么时候执行onComplete的方法，也就说明了Interval是无限发射数据的，但是我们上面的日志打印了onComplete方法，其实是take中 执行了onComplete方法。</p>
+<p>我们回过头再看<strong>【代码1】</strong>里面创建了两个类：BufferExactUnboundedObserver 和 SerializedObserver，这两个类把我们自己创建的观察者 Observer 又包装了两次。</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source.subscribe(<span class="keyword">new</span> <span class="type">BufferExactUnboundedObserver</span>&lt;T, U&gt;(</span><br><span class="line">                <span class="keyword">new</span> <span class="type">SerializedObserver</span>&lt;U&gt;(t),</span><br><span class="line">                bufferSupplier, timespan, unit, scheduler));</span><br></pre></td></tr></table></figure>
+
+<p>但是在传到 ObservableInterval 的 subscribeActual方法中的是 BufferExactUnboundedObserver的对象，所以上面的 <strong>标记1</strong>（onSubscribe）和 <strong>标记2</strong>（onNext）会执行 BufferExactUnboundedObserver 的 onSubscribe和onNext方法。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void on<span class="constructor">Subscribe(Disposable <span class="params">d</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="module-access"><span class="module"><span class="identifier">DisposableHelper</span>.</span></span>validate(this.upstream, d)) &#123;</span><br><span class="line">        this.upstream = d;</span><br><span class="line">        <span class="comment">//同样的U 是 List&lt;Integer&gt;类型的</span></span><br><span class="line">        U b;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//创建一个空的 ArrayList</span></span><br><span class="line">            b = <span class="module-access"><span class="module"><span class="identifier">ObjectHelper</span>.</span></span>require<span class="constructor">NonNull(<span class="params">bufferSupplier</span>.<span class="params">call</span>()</span>, <span class="string">"The buffer supplied is null"</span>);</span><br><span class="line">        &#125; catch (Throwable e) &#123;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">Exceptions</span>.</span></span>throw<span class="constructor">IfFatal(<span class="params">e</span>)</span>;</span><br><span class="line">            dispose<span class="literal">()</span>;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">EmptyDisposable</span>.</span></span>error(e, downstream);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 把空的ArrayList赋给 buffer，buffer是一个List&lt;Integer&gt;类型的变量</span></span><br><span class="line">        buffer = b;</span><br><span class="line">        <span class="comment">// downstream 是SerializedObserver的对象，执行他的onSubscribe</span></span><br><span class="line">		<span class="comment">// 标记3</span></span><br><span class="line">        downstream.on<span class="constructor">Subscribe(<span class="params">this</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span> (!cancelled) &#123;</span><br><span class="line">            <span class="comment">// 这个地方很重要，里面也比较复杂，涉及到 scheduler 的知识点</span></span><br><span class="line">            <span class="comment">// 简单点理解，就是执行一个定时任务，最后回调是 run 方法中</span></span><br><span class="line">            Disposable task = scheduler.schedule<span class="constructor">PeriodicallyDirect(<span class="params">this</span>, <span class="params">timespan</span>, <span class="params">timespan</span>, <span class="params">unit</span>)</span>;</span><br><span class="line">            <span class="keyword">if</span> (!timer.compare<span class="constructor">AndSet(<span class="params">null</span>, <span class="params">task</span>)</span>) &#123;</span><br><span class="line">                task.dispose<span class="literal">()</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这里是把interval 每发射的数据存到 buffer里面</span></span><br><span class="line"><span class="comment"> * @param t t在这里是 interval 每隔100ms 发射的整数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">@Override</span><br><span class="line">public void on<span class="constructor">Next(T <span class="params">t</span>)</span> &#123;</span><br><span class="line">    synchronized (this) &#123;</span><br><span class="line">        U b = buffer;</span><br><span class="line">        <span class="keyword">if</span> (b<span class="operator"> == </span>null) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        b.add(t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>scheduler参考 <a href="https://github.com/gs-wenbing/RxJavaDemo/tree/master/app/src/main/java/com/zwb/rxjavademo/RxAPI/RxScheduler" target="_blank" rel="noopener">scheduler的详细解析</a></p>
+<p>我们看到在 onSubscribe 中执行一个定时任务，最后回调是 run 方法中:</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 存放下一个时间段的数据</span></span><br><span class="line">    U next;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        next = ObjectHelper.requireNonNull(bufferSupplier.call(), <span class="string">"The bufferSupplier returned a null buffer"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">        Exceptions.throwIfFatal(e);</span><br><span class="line">        downstream.onError(e);</span><br><span class="line">        dispose();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 存放当前数据，，</span></span><br><span class="line">    U current;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        <span class="comment">//把buffer中的数据存进去</span></span><br><span class="line">        current = buffer;</span><br><span class="line">        <span class="keyword">if</span> (current != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//然后buffer存放下个时间段的数据</span></span><br><span class="line">            buffer = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (current == <span class="keyword">null</span>) &#123;</span><br><span class="line">        DisposableHelper.dispose(timer);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 执行父类的 fastPathEmit，里面执行了accept，也就是下面的方法</span></span><br><span class="line">    fastPathEmit(current, <span class="keyword">false</span>, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> a</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> v 就是上面的 current，也就是要发射的一个缓存区</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(Observer&lt;? <span class="keyword">super</span> U&gt; a, U v)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//downstream 是SerializedObserver的对象，执行他的onNext</span></span><br><span class="line">    <span class="comment">//标记4</span></span><br><span class="line">    downstream.onNext(v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们从上面代码中看到，<strong>标注3 *<em>和 *</em>标注4</strong> 的 onSubscribe 和 onNext 方法是 SerializedObserver中的，</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> void onSubscribe(<span class="meta">@NonNull</span> Disposable d) &#123;</span><br><span class="line">    <span class="keyword">if</span> (DisposableHelper.validate(<span class="keyword">this</span>.upstream, d)) &#123;</span><br><span class="line">        <span class="keyword">this</span>.upstream = d;</span><br><span class="line">        <span class="comment">// 这里才执行了 我们自己创建的 Observer 的 onSubscribe 回调</span></span><br><span class="line">        downstream.onSubscribe(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> t 这里的 t 是上面创建的一组数据缓存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> void onNext(<span class="meta">@NonNull</span> T t) &#123;</span><br><span class="line">    <span class="comment">//.......</span></span><br><span class="line">    <span class="comment">//我们只看这行代码，发射数据缓存</span></span><br><span class="line">    downstream.onNext(t);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看到最后给我们自己创建的观察者发射数据是在 SerializedObserver 中，包括onSubscribe、onComplete的回调</p>
+<p>但是整个流程还没完，我们打印的日志里 第四条和第五条的时间间隔不是我们设置的300ms，这是怎么回事呢</p>
+<p>我们知道其实上面的代码中我们看到了两个线程在执行，一个是interval的线程隔100ms发射数据给buffer，另个一是buffer的线程每个300ms发射数据缓存 ，但是这俩个线程是异步的，<br>也就是说<code>interval(100, TimeUnit.MILLISECONDS).take(10)</code>发射的10条数据完成后会直接执行onComplete()，而onComplete()把剩下的数据缓存全部发射，并且onComplete()也不需要等待300ms后在执行。</p>
+<p>这里take的onComplete()最终会调用 BufferExactUnboundedObserver 的 onComplete方法：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void on<span class="constructor">Complete()</span> &#123;</span><br><span class="line">    U b;</span><br><span class="line">    synchronized (this) &#123;</span><br><span class="line">        b = buffer;</span><br><span class="line">        <span class="comment">//清空 buffer</span></span><br><span class="line">        buffer = null;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (b != null) &#123;</span><br><span class="line">        queue.offer(b);</span><br><span class="line">        <span class="comment">// done设置为true后执行downstream（SerializedObserver） 的onComplete方法，</span></span><br><span class="line">        <span class="comment">// 因为SerializedObserver的onComplete方法才是正在执行我们创建的观察者的onComplete的方法</span></span><br><span class="line">        <span class="keyword">done</span> = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (enter<span class="literal">()</span>) &#123;</span><br><span class="line">            <span class="comment">//1、执行BufferExactUnboundedObserver 的 accept</span></span><br><span class="line">            <span class="comment">//2、执行SerializedObserver的onComplete</span></span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">QueueDrainHelper</span>.</span></span>drain<span class="constructor">Loop(<span class="params">queue</span>, <span class="params">downstream</span>, <span class="params">false</span>, <span class="params">null</span>, <span class="params">this</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 结束buffer的定时任务</span></span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">DisposableHelper</span>.</span></span>dispose(timer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样buffer(timespan, unit) 的整个流程就分析完了。上面示例分析加了interval 和 take ，所以会有些复杂。<br>下面看下简单的示例</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">        .<span class="keyword">create</span>(<span class="built_in">new</span> ObservableOnSubscribe&lt;<span class="type">Integer</span>&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            <span class="built_in">public</span> <span class="type">void</span> subscribe(ObservableEmitter&lt;<span class="type">Integer</span>&gt; emitter) throws <span class="keyword">Exception</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">                    emitter.onNext(i);</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                emitter.onComplete();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .buffer(<span class="number">300</span>, TimeUnit.MILLISECONDS)</span><br><span class="line">        .subscribe(<span class="built_in">new</span> Observer&lt;List&lt;<span class="type">Integer</span>&gt;&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            <span class="built_in">public</span> <span class="type">void</span> onSubscribe(Disposable d) &#123;</span><br><span class="line">                <span class="keyword">System</span>.<span class="keyword">out</span>.println("onSubscribe");</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            <span class="built_in">public</span> <span class="type">void</span> onNext(List&lt;<span class="type">Integer</span>&gt; longs) &#123;</span><br><span class="line">                <span class="keyword">System</span>.<span class="keyword">out</span>.println(longs);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            <span class="built_in">public</span> <span class="type">void</span> onError(Throwable e) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            <span class="built_in">public</span> <span class="type">void</span> onComplete() &#123;</span><br><span class="line">                <span class="keyword">System</span>.<span class="keyword">out</span>.println("onComplete");</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">I/System.<span class="keyword">out</span>: onSubscribe</span><br><span class="line">I/System.<span class="keyword">out</span>: [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">I/System.<span class="keyword">out</span>: [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">I/System.<span class="keyword">out</span>: [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line">I/System.<span class="keyword">out</span>: [<span class="number">9</span>]</span><br><span class="line">I/System.<span class="keyword">out</span>: onComplete</span><br></pre></td></tr></table></figure>
+
+<p>时序图如下：</p>
+<img src="https://raw.githubusercontent.com/gs-wenbing/RxJavaDemo/master/app/images/buffer.png" width="1000" alt="时序图">
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>gs-wenbing</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.wblog.work/Rxjava2 - buffer示例和源码解析/" title="Rxjava2 - buffer示例和源码解析">http://www.wblog.work/Rxjava2 - buffer示例和源码解析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Rxjava/" rel="tag"><i class="fa fa-tag"></i> Rxjava</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/Rxjava2 - from示例和源码解析/" rel="next" title="Rxjava2 - from示例和源码解析">
+                  <i class="fa fa-chevron-left"></i> Rxjava2 - from示例和源码解析
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/Rxjava2 - defer示例和详细解析/" rel="prev" title="Rxjava2 - defer示例和详细解析">
+                  Rxjava2 - defer示例和详细解析 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Buffer"><span class="nav-number">1.</span> <span class="nav-text">Buffer</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#buffer-count-skip"><span class="nav-number">1.1.</span> <span class="nav-text">buffer(count, skip)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示例"><span class="nav-number">1.1.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#分析"><span class="nav-number">1.1.2.</span> <span class="nav-text">分析</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buffer-timespan-unit"><span class="nav-number">1.2.</span> <span class="nav-text">buffer(timespan,  unit)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示例-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#分析-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">分析</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/author.jpg"
+      alt="gs-wenbing">
+  <p class="site-author-name" itemprop="name">gs-wenbing</p>
+  <div class="site-description" itemprop="description">如果你不是经常遇到挫折，这表明你做的事情没有很大的创新性</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/gs-wenbing" title="GitHub &rarr; https://github.com/gs-wenbing" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+<div style="width: 100%;height: 1px; border-top: solid #ACC0D8 1px;margin-top:10px"></div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="https://www.wanandroid.com/article/list/0?cid=73" title="https://www.wanandroid.com/article/list/0?cid=73" rel="noopener" target="_blank">Android面试</a>
+        </span >
+      
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="https://p.codekk.com/" title="https://p.codekk.com/" rel="noopener" target="_blank">Android开源项目解析</a>
+        </span >
+      
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="http://gank.io/" title="http://gank.io/" rel="noopener" target="_blank">干货集中营</a>
+        </span >
+      
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="https://guoshuyu.cn/home/wx/Flutter-1.html" title="https://guoshuyu.cn/home/wx/Flutter-1.html" rel="noopener" target="_blank">Flutter教程</a>
+        </span >
+      
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="https://tool.gifhome.com/compress/" title="https://tool.gifhome.com/compress/" rel="noopener" target="_blank">gif压缩</a>
+        </span >
+      
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="https://hencoder.com/" title="https://hencoder.com/" rel="noopener" target="_blank">扔物线</a>
+        </span >
+      
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="https://wanandroid.com/" title="https://wanandroid.com/" rel="noopener" target="_blank">张鸿洋</a>
+        </span >
+      
+        <span  class="links-of-blogroll-item" style="margin:0px 5px;">
+          <a href="https://blog.csdn.net/" title="https://blog.csdn.net/" rel="noopener" target="_blank">郭霖</a>
+        </span >
+      
+    
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gs-wenbing</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-"></i>
+	本站访问数
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span> 
+	人
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-"></i>
+	本站总访问量
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+	次
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+    
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="[object Object]"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'dcwsNQnoK6fnBWLRyohnYToY-gzGzoHsz',
+    appKey: 'kiR9fe9oR5U6eN7v4axOqGIk',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
